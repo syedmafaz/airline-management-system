@@ -46,24 +46,31 @@ package com.AmsSpringBoot.util;
 
 
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-  public static Connection createConnection() {
-      Connection conn = null;
-      try {
-          Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-          //String dbURL = "jdbc:derby:C:\\Users\\Admin\\JavaServletAndJSP;create=true"; // Use your actual DB path
-          
-//          String dbURL = "jdbc:derby:C:\\Users\\Admin\\AMS_Angular_and_Spring;create=true";
-          String dbURL = "jdbc:derby:./ams_db;create=true";
-          conn = DriverManager.getConnection(dbURL);
-      } catch (ClassNotFoundException | SQLException e) {
-          e.printStackTrace();
-      }
-      return conn;
-  }
+    private static final String DB_URL;
+
+    static {
+        String baseDir = System.getProperty("user.home", ".");
+        File dir = new File(baseDir, "ams_db");
+        DB_URL = "jdbc:derby:" + dir.getAbsolutePath().replace('\\', '/') + ";create=true";
+        System.out.println("Connecting to Derby DB at: " + DB_URL);
+    }
+
+    public static Connection createConnection() {
+        Connection conn = null;
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            conn = DriverManager.getConnection(DB_URL);
+        } catch (Exception e) {
+            System.err.println("DBUtil connection error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return conn;
+    }
 }
 
