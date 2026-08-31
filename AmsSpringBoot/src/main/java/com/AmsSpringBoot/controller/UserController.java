@@ -22,7 +22,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    private UserDAO userDAO;
+    // private UserDAO userDAO;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) throws SQLException {
@@ -89,7 +89,7 @@ public class UserController {
             String emailId = loginData.get("emailId");  // Changed from userName
             String password = loginData.get("password");
             
-            User user = userDAO.authenticateByEmail(emailId, password);  // New method
+            User user = UserDAO.authenticateByEmail(emailId, password);  // New method
             
             if (user != null) {
                 response.put("success", true);
@@ -157,7 +157,7 @@ public class UserController {
     @GetMapping("/validate-email/{email}")
     public ResponseEntity<Boolean> validateEmail(@PathVariable String email) {
         try {
-            boolean exists = userDAO.emailExists(email);
+            boolean exists = UserDAO.emailExists(email);
             return ResponseEntity.ok(exists);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(false);
@@ -166,3 +166,4 @@ public class UserController {
 
 
 }
+
