@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Sep 01 01:07:24 IST 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-01a0-5953-91e0-000001550eb0 
+on database directory C:\Users\Admin\AMS_Angular_and_Spring with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528 
+Loaded from file:/C:/Users/Admin/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=22+36-2370
+user.dir=E:\TCS SPRING BOOT AND ANGULAR PROJECT\AmsSpringBoot
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

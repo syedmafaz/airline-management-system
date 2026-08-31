@@ -1,0 +1,248 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #3949ab;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.signup-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  color: white;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+label {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.input-container {
+  position: relative;
+}
+
+input {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: border 0.3s, box-shadow 0.3s;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(128, 189, 255, 0.3);
+}
+
+input.invalid {
+  border: 2px solid #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.checking-indicator {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.spinner-small {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.password-requirements {
+  margin-top: 5px;
+}
+
+.password-requirements small {
+  color: #e3f2fd;
+  font-size: 0.75rem;
+}
+
+.error-message {
+  color: #ffc107;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: -0.5rem;
+  margin-left: 5px;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.btn-submit {
+  width: 100%;
+  max-width: 200px;
+  padding: 0.9rem;
+  background: #ffffff;
+  color: teal;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: black;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn-link {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  color: #cce5ff;
+}
+
+/* Success Container Styles */
+.success-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.success-details {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 1rem 0;
+}
+
+.user-id-display {
+  background: rgba(76, 175, 80, 0.2);
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-id {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.note {
+  font-size: 0.9rem;
+  color: #e3f2fd;
+  margin: 1rem 0;
+}
+
+.success-actions {
+  margin-top: 2rem;
+}
+
+.btn-primary {
+  background: #4caf50;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.auto-redirect {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #cce5ff;
+}
+
+@media (max-width: 768px) {
+  .signup-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+
+  input {
+    padding: 0.65rem;
+  }
+}

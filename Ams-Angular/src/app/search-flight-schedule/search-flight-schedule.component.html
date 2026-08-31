@@ -1,0 +1,84 @@
+<!-- <div class="container">
+  <h2>Search Flight Schedule</h2>
+
+  <form #searchForm="ngForm" (ngSubmit)="onSearch()">
+    <div class="form-group">
+      <label for="scheduleId">Enter Schedule ID:</label>
+      <input
+        type="number"
+        id="scheduleId"
+        name="scheduleId"
+        [(ngModel)]="scheduleId"
+        required
+        min="1"
+        class="form-control"
+        placeholder="e.g., 1001"
+      />
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="searchForm.invalid" class="btn btn-primary">
+        Search
+      </button>
+    </div>
+  </form>
+
+  <p class="status" *ngIf="message" [ngClass]="{ 'success': isFound, 'error': !isFound }">
+    {{ message }}
+  </p>
+
+  <div *ngIf="schedule && flight" class="result-card">
+    <h3>Flight Schedule Details</h3>
+    <p><strong>Schedule ID:</strong> {{ schedule.flightScheduleId }}</p>
+    <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+    <p><strong>Flight:</strong> #{{ flight.flightId }} - {{ flight.origin }} to {{ flight.destination }}</p>
+    <p><strong>Carrier Name:</strong> {{ carrierName }}</p>
+    <p><strong>Business Class Fare:</strong> ₹{{ schedule.businessClassFare }}</p>
+    <p><strong>Economy Class Fare:</strong> ₹{{ schedule.economyClassFare }}</p>
+    <p><strong>Executive Class Fare:</strong> ₹{{ schedule.executiveClassFare }}</p>
+  </div>
+</div> -->
+
+
+
+<div class="container">
+  <h2>Search Flight Schedule</h2>
+
+  <div class="form-group">
+    <label for="scheduleId">Enter Schedule ID:</label>
+    <input
+      type="number"
+      id="scheduleId"
+      name="scheduleId"
+      [(ngModel)]="scheduleId"
+      required
+      placeholder="e.g., 2001"
+    />
+    <button (click)="onSearch()">Search</button>
+  </div>
+
+  <p class="status" *ngIf="message" [ngClass]="{ success: isFound, error: !isFound }">
+    {{ message }}
+  </p>
+
+  <div class="result-card" *ngIf="schedule && flight">
+    <h3>Flight Schedule Details</h3>
+
+    <p><strong>Schedule ID:</strong> {{ schedule.flightScheduleId }}</p>
+    <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+    <p><strong>Departure:</strong> {{ schedule.departureDate }} at {{ schedule.departureTime }}</p>
+    <p><strong>Arrival:</strong> {{ schedule.arrivalDate }} at {{ schedule.arrivalTime }}</p>
+
+    <p><strong>Flight:</strong> #{{ flight.flightId }} - {{ flight.origin }} to {{ flight.destination }}</p>
+    <p><strong>Carrier Name:</strong> {{ carrierName }}</p>
+
+    <p><strong>Business Class Fare:</strong> ₹{{ schedule.businessClassFare }}</p>
+    <p><strong>Economy Class Fare:</strong> ₹{{ schedule.economyClassFare }}</p>
+    <p><strong>Executive Class Fare:</strong> ₹{{ schedule.executiveClassFare }}</p>
+
+    <p><strong>Business Seats Booked:</strong> {{ schedule.businessClassBookedCount }}</p>
+    <p><strong>Economy Seats Booked:</strong> {{ schedule.economyClassBookedCount }}</p>
+    <p><strong>Executive Seats Booked:</strong> {{ schedule.executiveClassBookedCount }}</p>
+  </div>
+</div>
+

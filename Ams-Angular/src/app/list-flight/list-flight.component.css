@@ -1,0 +1,83 @@
+.container {
+    padding: 30px;
+    max-width: 100%;
+    background-color: #f4f6fc;
+    border-radius: 10px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  h2 {
+    color: #3f51b5;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Status Message */
+  .status {
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+  }
+  
+  /* Flight Table */
+  .flight-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .flight-table th,
+  .flight-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dcdcdc;
+    font-size: 14px;
+  }
+  
+  .flight-table th {
+    background-color: #3f51b5;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .flight-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .flight-table tr:hover {
+    background-color: #eef3fd;
+  }
+  
+  /* Delete Button */
+  .delete-btn {
+    background-color: #e53935;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-btn:hover {
+    background-color: #b71c1c;
+  }
+  
+  /* No Data Text */
+  p {
+    text-align: center;
+    font-size: 15px;
+    margin-top: 20px;
+    color: #444;
+  }

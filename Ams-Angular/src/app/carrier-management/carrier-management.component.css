@@ -1,0 +1,93 @@
+.page-wrapper {
+    
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #e3f2fd, #f8f9fa);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Header section */
+  .header {
+    background: linear-gradient(to right, #283593, #3949ab);
+    color: white;
+    text-align: center;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .header h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  
+  .header p {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  
+  /* Menu navigation */
+  .menu {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 10px 0;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu ul {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+
+  .menu li {
+    flex-shrink: 0;
+  }
+
+  .menu a {
+    text-decoration: none;
+    color: white;
+    background: #3949ab;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    white-space: nowrap;
+  }
+  
+  .menu a:hover {
+    background: #1a237e;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .header {
+      padding: 20px 10px;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+    }
+
+    .menu ul {
+      justify-content: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  
+    .menu a {
+      font-size: 0.85rem;
+      padding: 8px 16px;
+    }
+  }

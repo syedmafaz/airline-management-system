@@ -1,0 +1,139 @@
+<!-- <div class="container">
+  <h2>Flight Schedule List</h2>
+  <p class="status" *ngIf="message">{{ message }}</p>
+
+  <table class="flight-table" *ngIf="schedules.length > 0">
+    <thead>
+      <tr>
+        <th>Schedule ID</th>
+        <th>Carrier Name</th>
+        <th>Flight</th>
+        <th>Date of Travel</th>
+        <th>Business Fare (₹)</th>
+        <th>Economy Fare (₹)</th>
+        <th>Executive Fare (₹)</th>
+        <th>Business Seats Booked</th>
+        <th>Economy Seats Booked</th>
+        <th>Executive Seats Booked</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let schedule of schedules">
+        <td>{{ schedule.flightScheduleId }}</td>
+        <td>{{ getCarrierName(schedule.flightId) }}</td>
+        <td>{{ getFlightName(schedule.flightId) }}</td>
+        <td>{{ schedule.dateOfTravel }}</td>
+        <td>{{ schedule.businessClassFare }}</td>
+        <td>{{ schedule.economyClassFare }}</td>
+        <td>{{ schedule.executiveClassFare }}</td>
+        <td>{{ schedule.businessClassBookedCount }}</td>
+        <td>{{ schedule.economyClassBookedCount }}</td>
+        <td>{{ schedule.executiveClassBookedCount }}</td>
+        <td>
+          <button (click)="deleteSchedule(schedule.flightScheduleId)" class="delete-btn">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="schedules.length === 0">No flight schedules found.</p>
+</div> -->
+
+
+
+ <!-- <div class="container">
+    <h2>Flight Schedule List</h2>
+    <p class="status" *ngIf="message">{{ message }}</p>
+  
+    <table class="flight-table" *ngIf="schedules.length > 0">
+      <thead>
+        <tr>
+          <th>Schedule ID</th>
+          <th>Carrier Name</th>
+          <th>Flight</th>
+          <th>Date of Travel</th>
+          <th>Business Fare (₹)</th>
+          <th>Economy Fare (₹)</th>
+          <th>Executive Fare (₹)</th>
+          <th>Business Seats Booked</th>
+          <th>Economy Seats Booked</th>
+          <th>Executive Seats Booked</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let schedule of schedules">
+          <td>{{ schedule.flightScheduleId }}</td>
+          <td>{{ getCarrierName(schedule.flightId) }}</td>
+          <td>{{ getFlightName(schedule.flightId) }}</td>
+          <td>{{ schedule.dateOfTravel }}</td>
+          <td>{{ schedule.businessClassFare }}</td>
+          <td>{{ schedule.economyClassFare }}</td>
+          <td>{{ schedule.executiveClassFare }}</td>
+          <td>{{ schedule.businessClassBookedCount }}</td>
+          <td>{{ schedule.economyClassBookedCount }}</td>
+          <td>{{ schedule.executiveClassBookedCount }}</td>
+          <td>
+            <button (click)="deleteSchedule(schedule.flightScheduleId)" class="delete-btn">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="schedules.length === 0">No flight schedules found.</p>
+  </div> -->
+
+
+
+
+  <div class="container">
+  <h2>Flight Schedule List</h2>
+  <p class="status" *ngIf="message">{{ message }}</p>
+
+  <table class="flight-table" *ngIf="schedules.length > 0">
+    <thead>
+      <tr>
+        <th>Schedule ID</th>
+        <th>Carrier Name</th>
+        <th>Flight</th>
+        <th>Date of Travel</th>
+        <th>Departure Date</th>
+        <th>Departure Time</th>
+        <th>Arrival Date</th>
+        <th>Arrival Time</th>
+        <th>Business Fare (₹)</th>
+        <th>Economy Fare (₹)</th>
+        <th>Executive Fare (₹)</th>
+        <th>Business Seats Booked</th>
+        <th>Economy Seats Booked</th>
+        <th>Executive Seats Booked</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let schedule of schedules">
+        <td>{{ schedule.flightScheduleId }}</td>
+        <td>{{ getCarrierName(schedule.flightId) }}</td>
+        <td>{{ getFlightName(schedule.flightId) }}</td>
+        <td>{{ schedule.dateOfTravel }}</td>
+        <td>{{ schedule.departureDate }}</td>
+        <td>{{ schedule.departureTime }}</td>
+        <td>{{ schedule.arrivalDate }}</td>
+        <td>{{ schedule.arrivalTime }}</td>
+        <td>{{ schedule.businessClassFare }}</td>
+        <td>{{ schedule.economyClassFare }}</td>
+        <td>{{ schedule.executiveClassFare }}</td>
+        <td>{{ schedule.businessClassBookedCount }}</td>
+        <td>{{ schedule.economyClassBookedCount }}</td>
+        <td>{{ schedule.executiveClassBookedCount }}</td>
+        <td>
+          <button (click)="deleteSchedule(schedule.flightScheduleId)" class="delete-btn">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- <p *ngIf="schedules.length === 0">No flight schedules found.</p> -->
+</div>
+

@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Search Flight</h2>
+  
+    <div class="form-group">
+      <label for="flightId">Enter Flight ID:</label>
+      <input type="number" id="flightId" [(ngModel)]="flightId" required />
+      <button (click)="onSearch()">Search</button>
+    </div>
+  
+    <p class="status" [ngClass]="{ 'success': isFound, 'error': !isFound }" *ngIf="message">{{ message }}</p>
+  
+    <div *ngIf="flight" class="result-card">
+      <h3>Flight Details</h3>
+      <p><strong>Flight ID:</strong> {{ flight.flightId }}</p>
+      <p><strong>Carrier ID:</strong> {{ flight.carrierId }}</p>
+      <p><strong>Carrier Name:</strong> {{ getCarrierName(flight.carrierId) }}</p>
+      <p><strong>Origin:</strong> {{ flight.origin }}</p>
+      <p><strong>Destination:</strong> {{ flight.destination }}</p>
+      <p><strong>Air Fare:</strong> ₹{{ flight.airFare }}</p>
+      <p><strong>Economy Seats:</strong> {{ flight.seatCapacityEconomyClass }}</p>
+      <p><strong>Business Seats:</strong> {{ flight.seatCapacityBusinessClass }}</p>
+      <p><strong>Executive Seats:</strong> {{ flight.seatCapacityExecutiveClass }}</p>
+    </div>
+  </div>

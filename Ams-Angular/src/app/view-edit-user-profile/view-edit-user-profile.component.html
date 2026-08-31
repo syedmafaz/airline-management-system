@@ -1,0 +1,161 @@
+<!-- <div class="container">
+  <h2>User Profile</h2>
+
+  <div class="status" *ngIf="message">
+    {{ message }}
+  </div>
+
+  
+  <div *ngIf="!user" style="color: red; margin: 20px 0;">
+    <p>No user data available. Please ensure you are logged in.</p>
+    <p>Check the browser console for more details.</p>
+  </div>
+
+  <div *ngIf="user" style="color: green; margin: 20px 0;">
+    <p>User data loaded successfully for: {{ user.userName || 'Unknown User' }}</p>
+  </div>
+
+  <form *ngIf="user">
+    <table class="flight-table">
+      <tr *ngFor="let field of editableFields">
+        <th>{{ getLabel(field) }}</th>
+        <td>
+          <input
+            [type]="getInputType(field)"
+            [value]="getFieldValue(field)"
+            (input)="setFieldValue(field, $any($event.target).value)"
+            [readonly]="!isEditMode"
+            [name]="field"
+          />
+        </td>
+      </tr>
+    </table>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button type="button" (click)="toggleEditMode()" *ngIf="!isEditMode">
+        Edit
+      </button>
+      <button type="button" (click)="updateProfile()" *ngIf="isEditMode">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div> -->
+
+
+
+ <div class="container">
+    <h2>User Profile</h2>
+  
+    <div class="status" *ngIf="message">
+      {{ message }}
+    </div>
+  
+    <!-- Debug information -->
+    <div *ngIf="!user" style="color: red; margin: 20px 0;">
+      <p>No user data available. Please ensure you are logged in.</p>
+      <p>Check the browser console for more details.</p>
+    </div>
+  
+    <div *ngIf="user" style="color: green; margin: 20px 0;">
+      <p>User data loaded successfully for: {{ user.userName || 'Unknown User' }}</p>
+    </div>
+  
+    <form [formGroup]="userForm" (ngSubmit)="updateProfile()" *ngIf="userForm">
+        <table class="flight-table">
+        <tr>
+         <th>User Name</th>
+        <td>
+         <input type="text" formControlName="userName" [readonly]="!isEditMode" />
+         <div class="error" *ngIf="f['userName'].touched && f['userName'].invalid">
+         <small *ngIf="f['userName'].errors?.['required']">Name is required.</small>
+         <small *ngIf="f['userName'].errors?.['pattern']">Name must start with a letter.</small>
+         </div>
+         </td>
+         </tr>
+        
+        <tr>
+         <th>Password</th>
+         <td>
+         <input type="password" formControlName="password" [readonly]="!isEditMode" />
+         </td>
+         </tr>
+        
+         <tr *ngIf="isEditMode">
+         <th>Confirm Password</th>
+         <td>
+        <input type="password" formControlName="confirmPassword" />
+        <div class="error" *ngIf="userForm.errors?.['passwordMismatch']">
+         <small>Passwords do not match.</small>
+         </div>
+         </td>
+         </tr>
+        
+         <tr>
+         <th>Phone</th>
+         <td>
+         <input type="text" formControlName="phone" [readonly]="!isEditMode" />
+         <div class="error" *ngIf="f['phone'].touched && f['phone'].invalid">
+         <small *ngIf="f['phone'].errors?.['pattern']">Phone must start with 6-9 and be 10 digits.</small>
+        </div>
+         </td>
+         </tr>
+        
+         <tr>
+         <th>Email</th>
+         <td>
+         <input type="email" formControlName="emailId" [readonly]="!isEditMode" />
+         <div class="error" *ngIf="f['emailId'].touched && f['emailId'].invalid">
+         <small *ngIf="f['emailId'].errors?.['email']">Invalid email address.</small>
+         </div>
+         </td>
+         </tr>
+        
+         <tr>
+         <th>City</th>
+         <td>
+         <input type="text" formControlName="city" [readonly]="!isEditMode" />
+         </td>
+         </tr>
+        
+         <tr>
+         <th>State</th>
+         <td>
+         <input type="text" formControlName="state" [readonly]="!isEditMode" />
+         </td>
+         </tr>
+        
+         <tr>
+         <th>Country</th>
+        <td>
+         <input type="text" formControlName="country" [readonly]="!isEditMode" />
+         </td>
+         </tr>
+        
+         <tr>
+         <th>Zip Code</th>
+         <td>
+         <input type="text" formControlName="zipCode" [readonly]="!isEditMode" />
+         <div class="error" *ngIf="f['zipCode'].touched && f['zipCode'].invalid">
+         <small *ngIf="f['zipCode'].errors?.['pattern']">Zip must be 5–6 digits.</small>
+         </div>
+         </td>
+         </tr>
+        
+         <tr>
+         <th>Date of Birth</th>
+         <td>
+         <input type="date" formControlName="dob" [readonly]="!isEditMode" />
+        <div class="error" *ngIf="f['dob'].touched && f['dob'].errors?.['invalidDob']">
+        <small>DOB must be a past date.</small>
+         </div>
+        </td>
+         </tr>
+        </table>
+        
+         <div style="text-align: center; margin-top: 20px;">
+         <button type="button" (click)="toggleEditMode()" *ngIf="!isEditMode">Edit</button>
+         <button type="submit" [disabled]="userForm.invalid" *ngIf="isEditMode">Save Changes</button>
+         </div>
+        </form>
+  </div>

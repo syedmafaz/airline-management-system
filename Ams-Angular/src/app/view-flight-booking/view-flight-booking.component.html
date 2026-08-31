@@ -1,0 +1,439 @@
+<!-- <div class="container">
+  <h2>My Flight Bookings</h2>
+  <p class="status" *ngIf="message">{{ message }}</p>
+
+  <table class="flight-table" *ngIf="bookings.length > 0">
+    <thead>
+      <tr>
+        <th>Booking ID</th>
+        <th>Carrier Name</th>
+        <th>Flight Route</th>
+        <th>Date of Travel</th>
+        <th>Seat Category</th>
+        <th>Tickets</th>
+        <th>Total Fare (₹)</th>
+        <th>Passengers</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings">
+        <td>{{ booking.bookingId }}</td>
+        <td>{{ getCarrier(getFlight(getSchedule(booking.flightScheduleId)?.flightId || 0)?.carrierId || 0)?.carrierName }}</td>
+        <td>
+          {{ getFlight(getSchedule(booking.flightScheduleId)?.flightId || 0)?.origin }} →
+          {{ getFlight(getSchedule(booking.flightScheduleId)?.flightId || 0)?.destination }}
+        </td>
+        <td>{{ getSchedule(booking.flightScheduleId)?.dateOfTravel }}</td>
+        <td>{{ booking.seatCategory }}</td>
+        <td>{{ booking.numberOfTickets }}</td>
+        <td>₹{{ booking.totalAmount }}</td>
+        <td>
+          <ng-container *ngIf="booking.passengerDetailsJson && booking.passengerDetailsJson.trim() !== ''">
+            <div *ngFor="let passenger of (booking.passengerDetailsJson | jsonParse)">
+              {{passenger?.name || 'N/A'}} ({{passenger?.age || 'N/A'}} yrs, {{passenger?.gender || 'N/A'}})
+            </div>
+          </ng-container>
+          <div *ngIf="!booking.passengerDetailsJson || booking.passengerDetailsJson.trim() === ''">
+            No passenger details
+          </div>
+        </td>
+        <td>{{ booking.bookingStatus }}</td>
+        <td>
+          <button
+            class="cancel-btn"
+            *ngIf="booking.bookingStatus === 'booked' && booking.bookingId"
+            (click)="cancelBooking(booking.bookingId)"
+          >
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="bookings.length === 0">No bookings found.</p>
+</div> -->
+
+
+
+ <!-- <div class="container">
+    <h2>Your Flight Bookings</h2>
+  
+    <div *ngIf="loading">Loading bookings...</div>
+  
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="message" class="message">{{ message }}</div>
+  
+    <table *ngIf="bookings.length > 0" class="booking-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Flight Schedule ID</th>
+          <th>Seat Category</th>
+          <th>Tickets</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Passengers</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{ booking.bookingId }}</td>
+          <td>{{ booking.flightScheduleId }}</td>
+          <td>{{ booking.seatCategory }}</td>
+          <td>{{ booking.numberOfTickets }}</td>
+          <td>{{ booking.totalAmount }}</td>
+          <td>{{ booking.bookingStatus }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let p of getPassengerList(booking.passengerDetailsJson)">
+                {{ p.name }} ({{ p.age }} / {{ p.gender }})
+              </li>
+            </ul>
+          </td>
+          <td>
+            <button (click)="cancelBooking(booking.bookingId!)">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+
+
+
+  <!-- <div class="container">
+    <h2>Your Flight Bookings</h2>
+  
+    <div *ngIf="loading">Loading bookings...</div>
+  
+    <div *ngIf="error" class="status" style="background-color: #f8d7da; color: #721c24; border-color: #f5c6cb;">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="message" class="status">
+      {{ message }}
+    </div>
+  
+    <table *ngIf="bookings.length > 0" class="flight-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Schedule ID</th>
+          <th>Seat Category</th>
+          <th>Tickets</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Passengers</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{ booking.bookingId }}</td>
+          <td>{{ booking.flightScheduleId }}</td>
+          <td>{{ booking.seatCategory }}</td>
+          <td>{{ booking.numberOfTickets }}</td>
+          <td>{{ booking.totalAmount }}</td>
+          <td>{{ booking.bookingStatus }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let p of getPassengerList(booking.passengerDetailsJson)">
+                {{ p.name }} ({{ p.age }} / {{ p.gender }})
+              </li>
+            </ul>
+          </td>
+          <td>
+            <button
+              class="delete-btn"
+              *ngIf="booking.bookingStatus?.toLowerCase() !== 'cancelled'"
+              (click)="cancelBooking(booking.bookingId!)"
+            >
+              Cancel
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="!loading && bookings.length === 0 && !error">
+      You haven't made any bookings yet.
+    </p>
+  </div> -->
+
+
+
+  <!-- <div class="container">
+    <h2>Your Flight Bookings</h2>
+  
+    <div *ngIf="loading">Loading bookings...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="message" class="message">{{ message }}</div>
+  
+    <table *ngIf="bookings.length > 0" class="flight-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Carrier</th>
+          
+          <th>Route</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Seat Category</th>
+          <th>Tickets</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Passengers</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td>{{ booking.bookingId }}</td>
+  
+          <td>
+            {{
+              getCarrier(getFlight(getSchedule(booking.flightScheduleId!)?.flightId!)?.carrierId!)?.carrierName
+            }}
+          </td>
+  
+         
+  
+          <td>
+             {{ getFlightNameFromSchedule(booking.flightScheduleId) }} 
+             
+            </td>
+            
+  
+          <td>
+            {{
+              getSchedule(booking.flightScheduleId!)?.departureDate
+            }},
+            {{
+              getSchedule(booking.flightScheduleId!)?.departureTime
+            }}
+          </td>
+  
+          <td>
+            {{
+              getSchedule(booking.flightScheduleId!)?.arrivalDate
+            }},
+            {{
+              getSchedule(booking.flightScheduleId!)?.arrivalTime
+            }}
+          </td>
+  
+          <td>{{ booking.seatCategory }}</td>
+          <td>{{ booking.numberOfTickets }}</td>
+          <td>{{ booking.totalAmount }}</td>
+          <td>{{ booking.bookingStatus }}</td>
+  
+          <td>
+            <ul>
+              <li *ngFor="let p of getPassengerList(booking.passengerDetailsJson)">
+                {{ p.name }} ({{ p.age }} / {{ p.gender }})
+              </li>
+            </ul>
+          </td>
+  
+          <td>
+            <button
+            *ngIf="booking.bookingStatus?.toLowerCase() !== 'cancelled'"
+              class="delete-btn"
+              (click)="cancelBooking(booking.bookingId!)"
+            >
+              Cancel
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+
+
+  <!-- view-flight-booking.component.html -->
+<div class="container">
+  <h2>🎫 Your Flight Bookings</h2>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading your bookings...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    <i class="icon-error">⚠️</i>
+    {{ error }}
+  </div>
+
+  <div *ngIf="message" class="alert alert-success">
+    <i class="icon-success">✅</i>
+    {{ message }}
+  </div>
+
+  <div *ngIf="bookings.length === 0 && !loading && !error" class="no-bookings">
+    <div class="empty-state">
+      <h3>📭 No bookings found</h3>
+      <p>You haven't made any flight bookings yet.</p>
+      <a routerLink="/user/search-flights" class="cta-button">Book Your First Flight</a>
+    </div>
+  </div>
+
+  <div *ngIf="bookings.length > 0" class="bookings-container">
+    <div class="booking-stats">
+      <div class="stat-card">
+        <span class="stat-number">{{ bookings.length }}</span>
+        <span class="stat-label">Total Bookings</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ getActiveBookingsCount() }}</span>
+        <span class="stat-label">Active Bookings</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ getCompletedBookingsCount() }}</span>
+        <span class="stat-label">Completed Bookings</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">{{ getCancelledBookingsCount() }}</span>
+        <span class="stat-label">Cancelled</span>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="flight-table">
+        <thead>
+          <tr>
+            <th>Booking Details</th>
+            <th>Flight Information</th>
+            <th>Schedule</th>
+            <th>Passengers</th>
+            <th>Pricing</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookings" [ngClass]="getStatusBadgeClass(getEffectiveStatus(booking))">
+            <!-- Booking Details -->
+            <td class="booking-details">
+              <div class="booking-id">
+                <strong>ID: #{{ booking.bookingId }}</strong>
+              </div>
+              <div class="booking-date" *ngIf="booking.bookingDate">
+                📅 {{ booking.bookingDate | date:'dd MMM yyyy' }}
+              </div>
+              <div class="seat-info">
+                <span class="seat-category">{{ booking.seatCategory | titlecase }}</span>
+                <span class="ticket-count">{{ booking.numberOfTickets }} ticket(s)</span>
+              </div>
+            </td>
+
+            <!-- Flight Information -->
+            <td class="flight-info">
+              <div class="carrier-name">
+                <strong>{{ getCarrierName(booking.flightScheduleId) }}</strong>
+
+              </div>
+              <div class="route">
+                {{ getFlightNameFromSchedule(booking.flightScheduleId) }}
+              </div>
+            </td>
+
+            <!-- Schedule -->
+            <td class="schedule-info">
+              <div class="departure">
+                <div class="label">🛫 Departure</div>
+                <div class="datetime">
+                  {{ getSchedule(booking.flightScheduleId)?.departureDate | date:'dd MMM' }}
+                  {{ getSchedule(booking.flightScheduleId)?.departureTime }}
+                </div>
+              </div>
+              <div class="arrival">
+                <div class="label">🛬 Arrival</div>
+                <div class="datetime">
+                  {{ getSchedule(booking.flightScheduleId)?.arrivalDate | date:'dd MMM' }}
+                  {{ getSchedule(booking.flightScheduleId)?.arrivalTime }}
+                </div>
+              </div>
+              <div class="days-until" *ngIf="getDaysUntilTravel(booking.flightScheduleId) > 0">
+                <small>{{ getDaysUntilTravel(booking.flightScheduleId) }} days to go</small>
+              </div>
+            </td>
+
+            <!-- Passengers -->
+            <td class="passengers-info">
+              <div class="passenger-count">
+                👥 {{ booking.numberOfTickets }} passenger(s)
+              </div>
+              <div class="passenger-list">
+                <div *ngFor="let passenger of getPassengerList(booking.passengerDetailsJson); let i = index" 
+                     class="passenger-item">
+                  <span class="passenger-number">{{ i + 1 }}.</span>
+                  <span class="passenger-name">{{ passenger.name }}</span>
+                  <span class="passenger-details">({{ passenger.age }}y, {{ passenger.gender }})</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Pricing -->
+            <td class="pricing-info">
+              <div class="total-amount">
+                <span class="amount">₹{{ booking.totalAmount }}</span>
+              </div>
+              <div class="fare-breakdown" *ngIf="booking.baseFare">
+                <small>Base: ₹{{ booking.baseFare }}</small>
+                <small *ngIf="booking.discountAmount && booking.discountAmount > 0">
+                  Discount: -₹{{ booking.discountAmount }}
+                </small>
+              </div>
+              <div class="refund-amount" *ngIf="booking.refundAmount && booking.refundAmount > 0">
+                <span class="refund">Refund: ₹{{ booking.refundAmount }}</span>
+              </div>
+            </td>
+
+            <!-- Status -->
+            <td class="status-info">
+              <span [ngClass]="'status-badge ' + getStatusBadgeClass(getEffectiveStatus(booking))">
+                {{ getEffectiveStatus(booking) === 'booked' ? 'Active' : (getEffectiveStatus(booking) | titlecase) }}
+              </span>
+            </td>
+
+            <!-- Actions -->
+            <td class="actions">
+              <div class="action-buttons">
+                <!-- Download Ticket -->
+                <button 
+                  class="action-btn download-btn"
+                  (click)="downloadTicket(booking.bookingId)"
+                  title="Download Ticket">
+                  📥 Ticket
+                </button>
+
+                <!-- Cancel Booking -->
+                <button 
+                  *ngIf="canCancel(booking)"
+                  class="action-btn cancel-btn"
+                  (click)="cancelBooking(booking.bookingId)"
+                  [disabled]="processingCancellation === booking.bookingId"
+                  title="Cancel Booking">
+                  <span *ngIf="processingCancellation === booking.bookingId">⏳</span>
+                  <span *ngIf="processingCancellation !== booking.bookingId">❌ Cancel</span>
+                </button>
+
+                <!-- Download Refund Receipt -->
+                <button 
+                  *ngIf="booking.bookingStatus?.toLowerCase() === 'cancelled'"
+                  class="action-btn refund-btn"
+                  (click)="downloadRefund(booking.bookingId)"
+                  title="Download Refund Receipt">
+                  💸 Refund
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

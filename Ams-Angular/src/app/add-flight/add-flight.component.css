@@ -1,0 +1,134 @@
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(to top left, #ffffff, #f1f5ff);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Heading Style */
+  h2 {
+    text-align: center;
+    color: #303f9f;
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+  
+  /* Label + Input Group */
+  .form-group {
+    margin-bottom: 18px;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    color: #3c3c3c;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #cfd8dc;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: 0.3s ease;
+  }
+  
+  input:focus {
+    border-color: #3f51b5;
+    outline: none;
+    box-shadow: 0 0 5px rgba(63, 81, 181, 0.25);
+  }
+  
+  /* Submit Button */
+  button {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 18px;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #1a237e;
+    transform: translateY(-1px);
+  }
+  
+  button:disabled {
+    background-color: #c5cae9;
+    cursor: not-allowed;
+  }
+  
+  /* Status Message */
+  .status {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+    animation: fadeIn 0.4s ease-in-out;
+    font-size: 14px;
+  }
+  
+  .success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+  }
+  
+  .error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+  }
+  
+  /* Validation Error Text */
+  input.ng-invalid.ng-touched {
+    border-color: #ef5350;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 24px;
+      max-width: 90%;
+    }
+  
+    h2 {
+      font-size: 22px;
+    }
+  
+    input {
+      font-size: 14px;
+    }
+  
+    button {
+      font-size: 15px;
+    }
+  }

@@ -1,0 +1,473 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Flight Schedule</title>
+</head>
+<body>
+  <div class="container">
+    <h2>Add New Flight Schedule</h2>
+    <form (ngSubmit)="onSubmit()" #scheduleForm="ngForm">
+      <div class="form-group">
+        <label for="FlightID">Flight ID *</label>
+        <select 
+          id="FlightID" 
+          name="FlightID" 
+          required 
+          [(ngModel)]="schedule.flightId"
+          class="form-control">
+          <option value="">Select a Flight</option>
+          <option *ngFor="let flight of flights" [value]="flight.flightId">
+            Flight #{{flight.flightId}} - {{flight.origin}} to {{flight.destination}}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="DateOfTravel">Date of Travel *</label>
+        <input 
+          type="date" 
+          id="DateOfTravel" 
+          name="DateOfTravel" 
+          required 
+          [(ngModel)]="schedule.dateOfTravel"
+          class="form-control"
+          [min]="today">
+      </div>
+
+
+      <div class="form-group">
+        <label for="BusinessClassFare">Business Class Fare (₹) *</label>
+        <input 
+          type="number" 
+          id="BusinessClassFare" 
+          name="BusinessClassFare" 
+          required 
+          min="1000" 
+          [(ngModel)]="schedule.businessClassFare"
+          class="form-control"
+          placeholder="Enter business class fare">
+      </div>
+
+      <div class="form-group">
+        <label for="EconomyClassFare">Economy Class Fare (₹) *</label>
+        <input 
+          type="number" 
+          id="EconomyClassFare" 
+          name="EconomyClassFare" 
+          required 
+          min="500" 
+          [(ngModel)]="schedule.economyClassFare"
+          class="form-control"
+          placeholder="Enter economy class fare">
+      </div>
+
+      <div class="form-group">
+        <label for="ExecutiveClassFare">Executive Class Fare (₹) *</label>
+        <input 
+          type="number" 
+          id="ExecutiveClassFare" 
+          name="ExecutiveClassFare" 
+          required 
+          min="1500" 
+          [(ngModel)]="schedule.executiveClassFare"
+          class="form-control"
+          placeholder="Enter executive class fare">
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          [disabled]="scheduleForm.invalid || isSubmitting"
+          class="submit-button">
+          <span *ngIf="!isSubmitting">Add Schedule</span>
+          <span *ngIf="isSubmitting" class="loading-text">
+            <i class="fas fa-spinner fa-spin"></i> Adding Schedule...
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="message" class="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">
+        {{ message }}
+      </div>
+    </form>
+  </div>
+</body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Flight Schedule</title>
+</head>
+<body>
+  <div class="container">
+    <h2>Add New Flight Schedule</h2>
+    <form (ngSubmit)="onSubmit()" #scheduleForm="ngForm">
+      
+    
+      <div class="form-group">
+        <label for="FlightID">Flight ID *</label>
+        <select 
+          id="FlightID" 
+          name="FlightID" 
+          required 
+          [(ngModel)]="schedule.flightId"
+          class="form-control">
+          <option value="">Select a Flight</option>
+          <option *ngFor="let flight of flights" [value]="flight.flightId">
+            Flight #{{flight.flightId}} - {{flight.origin}} to {{flight.destination}}
+          </option>
+        </select>
+      </div>
+
+      
+      <div class="form-group">
+        <label for="DateOfTravel">Date of Travel *</label>
+        <input 
+          type="date" 
+          id="DateOfTravel" 
+          name="DateOfTravel" 
+          required 
+          [(ngModel)]="schedule.dateOfTravel"
+          class="form-control"
+          [min]="today">
+      </div>
+
+     
+      <div class="form-group">
+        <label for="DepartureDate">Departure Date *</label>
+        <input 
+          type="date" 
+          id="DepartureDate" 
+          name="DepartureDate" 
+          required 
+          [(ngModel)]="schedule.departureDate"
+          class="form-control"
+          [min]="today">
+      </div>
+
+      
+      <div class="form-group">
+        <label for="DepartureTime">Departure Time *</label>
+        <input 
+          type="time" 
+          id="DepartureTime" 
+          name="DepartureTime" 
+          required 
+          [(ngModel)]="schedule.departureTime"
+          class="form-control">
+      </div>
+
+      
+      <div class="form-group">
+        <label for="ArrivalDate">Arrival Date *</label>
+        <input 
+          type="date" 
+          id="ArrivalDate" 
+          name="ArrivalDate" 
+          required 
+          [(ngModel)]="schedule.arrivalDate"
+          class="form-control"
+          [min]="today">
+      </div>
+
+     
+      <div class="form-group">
+        <label for="ArrivalTime">Arrival Time *</label>
+        <input 
+          type="time" 
+          id="ArrivalTime" 
+          name="ArrivalTime" 
+          required 
+          [(ngModel)]="schedule.arrivalTime"
+          class="form-control">
+      </div>
+
+      
+      <div class="form-group">
+        <label for="BusinessClassFare">Business Class Fare (₹) *</label>
+        <input 
+          type="number" 
+          id="BusinessClassFare" 
+          name="BusinessClassFare" 
+          required 
+          min="1000" 
+          [(ngModel)]="schedule.businessClassFare"
+          class="form-control"
+          placeholder="Enter business class fare">
+      </div>
+
+     
+      <div class="form-group">
+        <label for="EconomyClassFare">Economy Class Fare (₹) *</label>
+        <input 
+          type="number" 
+          id="EconomyClassFare" 
+          name="EconomyClassFare" 
+          required 
+          min="500" 
+          [(ngModel)]="schedule.economyClassFare"
+          class="form-control"
+          placeholder="Enter economy class fare">
+      </div>
+
+      
+      <div class="form-group">
+        <label for="ExecutiveClassFare">Executive Class Fare (₹) *</label>
+        <input 
+          type="number" 
+          id="ExecutiveClassFare" 
+          name="ExecutiveClassFare" 
+          required 
+          min="1500" 
+          [(ngModel)]="schedule.executiveClassFare"
+          class="form-control"
+          placeholder="Enter executive class fare">
+      </div>
+
+      
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          [disabled]="scheduleForm.invalid || isSubmitting"
+          class="submit-button">
+          <span *ngIf="!isSubmitting">Add Schedule</span>
+          <span *ngIf="isSubmitting" class="loading-text">
+            <i class="fas fa-spinner fa-spin"></i> Adding Schedule...
+          </span>
+        </button>
+      </div>
+
+      
+      <div *ngIf="message" class="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">
+        {{ message }}
+      </div>
+    </form>
+  </div>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Flight Schedule</title>
+</head>
+<body>
+  <div class="container">
+    <h2>✈️ Add New Flight Schedule</h2>
+    
+    <form (ngSubmit)="onSubmit()" #scheduleForm="ngForm">
+      
+      <!-- Flight Selection -->
+      <div class="form-group">
+        <label for="FlightID">Flight Selection *</label>
+        <select 
+          id="FlightID" 
+          name="FlightID" 
+          required 
+          [(ngModel)]="schedule.flightId"
+          class="form-control">
+          <option value="">Select a Flight</option>
+          <option *ngFor="let flight of flights" [value]="flight.flightId">
+            Flight #{{flight.flightId}} - {{flight.origin}} → {{flight.destination}}
+          </option>
+        </select>
+        <div class="help-text">Choose the flight for which you want to create a schedule</div>
+      </div>
+
+      <!-- Travel Date -->
+      <div class="form-group">
+        <label for="DateOfTravel">Date of Travel *</label>
+        <input 
+          type="date" 
+          id="DateOfTravel" 
+          name="DateOfTravel" 
+          required 
+          [(ngModel)]="schedule.dateOfTravel"
+          (change)="onTravelDateChange()"
+          class="form-control"
+          [min]="today">
+        <div class="help-text">This will auto-populate the departure date</div>
+        <div *ngIf="dateValidationError" class="validation-error">{{ dateValidationError }}</div>
+      </div>
+
+      <!-- Departure Date (Auto-populated, Read-only) -->
+      <div class="form-group">
+        <label for="DepartureDate">Departure Date *</label>
+        <input 
+          type="date" 
+          id="DepartureDate" 
+          name="DepartureDate" 
+          required 
+          [(ngModel)]="schedule.departureDate"
+          class="form-control readonly"
+          readonly
+          title="This is auto-populated from travel date">
+        <div class="help-text">📅 Auto-populated from travel date (cannot be edited)</div>
+      </div>
+
+      <!-- Departure Time -->
+      <div class="form-group">
+        <label for="DepartureTime">Departure Time *</label>
+        <input 
+          type="time" 
+          id="DepartureTime" 
+          name="DepartureTime" 
+          required 
+          [(ngModel)]="schedule.departureTime"
+          (change)="onDepartureTimeChange()"
+          class="form-control">
+        <div class="help-text">⏰ Must be at least 1 hour before arrival time</div>
+      </div>
+
+      <!-- Arrival Date -->
+      <div class="form-group">
+        <label for="ArrivalDate">Arrival Date *</label>
+        <input 
+          type="date" 
+          id="ArrivalDate" 
+          name="ArrivalDate" 
+          required 
+          [(ngModel)]="schedule.arrivalDate"
+          (change)="onArrivalDateChange()"
+          class="form-control"
+          [min]="schedule.departureDate || today">
+        <div class="help-text">Cannot be before departure date</div>
+      </div>
+
+      <!-- Arrival Time -->
+      <div class="form-group">
+        <label for="ArrivalTime">Arrival Time *</label>
+        <input 
+          type="time" 
+          id="ArrivalTime" 
+          name="ArrivalTime" 
+          required 
+          [(ngModel)]="schedule.arrivalTime"
+          (change)="onArrivalTimeChange()"
+          class="form-control">
+        <div class="help-text">⏱️ Must be at least 1 hour after departure time</div>
+        
+        <!-- Flight Duration Display -->
+        <div *ngIf="getFlightDuration()" class="duration-display">
+          ✈️ {{ getFlightDuration() }}
+        </div>
+        
+        <!-- Time Validation Error -->
+        <div *ngIf="timeValidationError" class="validation-error">{{ timeValidationError }}</div>
+      </div>
+
+      <!-- Fare Section -->
+      <div class="fare-section">
+        <h3>💰 Class Fares</h3>
+        <div class="fare-help">Configure fares for different seat classes (Economy < Business < Executive)</div>
+        
+        <!-- Economy Fare -->
+        <div class="form-group">
+          <label for="EconomyClassFare">Economy Class Fare (₹) *</label>
+          <input 
+            type="number" 
+            id="EconomyClassFare" 
+            name="EconomyClassFare" 
+            required 
+            min="500" 
+            [(ngModel)]="schedule.economyClassFare"
+            class="form-control"
+            placeholder="Enter economy class fare (min ₹500)">
+          <div class="help-text">💺 Base fare for economy class passengers</div>
+        </div>
+
+        <!-- Business Fare -->
+        <div class="form-group">
+          <label for="BusinessClassFare">Business Class Fare (₹) *</label>
+          <input 
+            type="number" 
+            id="BusinessClassFare" 
+            name="BusinessClassFare" 
+            required 
+            min="1000" 
+            [(ngModel)]="schedule.businessClassFare"
+            class="form-control"
+            placeholder="Enter business class fare (min ₹1000)">
+          <div class="help-text">🔥 Premium fare for business class (must be > economy)</div>
+        </div>
+
+        <!-- Executive Fare -->
+        <div class="form-group">
+          <label for="ExecutiveClassFare">Executive Class Fare (₹) *</label>
+          <input 
+            type="number" 
+            id="ExecutiveClassFare" 
+            name="ExecutiveClassFare" 
+            required 
+            min="1500" 
+            [(ngModel)]="schedule.executiveClassFare"
+            class="form-control"
+            placeholder="Enter executive class fare (min ₹1500)">
+          <div class="help-text">👑 Luxury fare for executive class (must be > business)</div>
+        </div>
+      </div>
+
+      <!-- Form Validation Summary -->
+      <div *ngIf="schedule.economyClassFare && schedule.businessClassFare && schedule.executiveClassFare" class="fare-summary">
+        <h4>📊 Fare Summary</h4>
+        <div class="fare-comparison">
+          <div class="fare-item economy">
+            <span class="class-name">Economy:</span>
+            <span class="fare-amount">₹{{ schedule.economyClassFare | number }}</span>
+          </div>
+          <div class="fare-item business">
+            <span class="class-name">Business:</span>
+            <span class="fare-amount">₹{{ schedule.businessClassFare | number }}</span>
+          </div>
+          <div class="fare-item executive">
+            <span class="class-name">Executive:</span>
+            <span class="fare-amount">₹{{ schedule.executiveClassFare | number }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          [disabled]="scheduleForm.invalid || isSubmitting || !isFormValid()"
+          class="submit-button"
+          [class.valid]="isFormValid()">
+          <span *ngIf="!isSubmitting">
+            <i class="icon">🚀</i>
+            Add Flight Schedule
+          </span>
+          <span *ngIf="isSubmitting" class="loading-text">
+            <i class="fas fa-spinner fa-spin"></i> Adding Schedule...
+          </span>
+        </button>
+        
+        <div class="form-status">
+          <div *ngIf="!isFormValid()" class="form-incomplete">
+            ⚠️ Please complete all required fields and fix validation errors
+          </div>
+          <div *ngIf="isFormValid()" class="form-complete">
+            ✅ Form is ready to submit
+          </div>
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div *ngIf="message" class="message" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }">
+        <i class="message-icon">{{ isSuccess ? '✅' : '❌' }}</i>
+        {{ message }}
+      </div>
+    </form>
+  </div>
+</body>
+</html>

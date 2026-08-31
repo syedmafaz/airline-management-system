@@ -1,0 +1,95 @@
+<!-- <div class="container">
+    <h2>Flight List</h2>
+    <p class="status" *ngIf="message">{{ message }}</p>
+  
+    <table class="flight-table" *ngIf="flights.length > 0">
+      <thead>
+        <tr>
+          <th>Flight ID</th>
+          <th>Carrier ID</th>
+          <th>Carrier Name</th>
+          <th>Origin</th>
+          <th>Destination</th>
+          <th>Air Fare</th>
+          <th>Economy Seats</th>
+          <th>Business Seats</th>
+          <th>Executive Seats</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flight of flights">
+          <td>{{ flight.flightId }}</td>
+          <td>{{ flight.carrierId }}</td>
+          <td>{{ getCarrierName(flight.carrierId) }}</td>
+          <td>{{ flight.origin }}</td>
+          <td>{{ flight.destination }}</td>
+          <td>{{ flight.airFare }}</td>
+          <td>{{ flight.seatCapacityEconomyClass }}</td>
+          <td>{{ flight.seatCapacityBusinessClass }}</td>
+          <td>{{ flight.seatCapacityExecutiveClass }}</td>
+          <td>
+    <button (click)="deleteFlight(flight.flightId)" class="delete-btn">Delete</button>
+  </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="flights.length === 0">No flights found.</p>
+  </div> -->
+
+
+
+    <!-- //list-flight.html -->
+    
+    <div class="container">
+    <h2>Flight List</h2>
+    <p class="status" *ngIf="message">{{ message }}</p>
+  
+    <table class="flight-table" *ngIf="flights.length > 0">
+      <thead>
+        <tr>
+          <th>Flight ID</th>
+          <th>Carrier ID</th>
+          <th>Carrier Name</th>
+          <th>Origin</th>
+          <th>Destination</th>
+          <th>Air Fare</th>
+          <th>Economy Seats</th>
+          <th>Business Seats</th>
+          <th>Executive Seats</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flight of flights">
+          <td>{{ flight.flightId }}</td>
+          <td>{{ flight.carrierId }}</td>
+          <td>{{ getCarrierName(flight.carrierId) }}</td>
+          <td>{{ flight.origin }}</td>
+          <td>{{ flight.destination }}</td>
+          <td>{{ flight.airFare }}</td>
+          <td>{{ flight.seatCapacityEconomyClass }}</td>
+          <td>{{ flight.seatCapacityBusinessClass }}</td>
+          <td>{{ flight.seatCapacityExecutiveClass }}</td>
+          <td>
+    <button (click)="openDeleteDialog(flight.flightId)" class="delete-btn">Delete</button>
+  </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p *ngIf="flights.length === 0">No flights found.</p>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+<div class="modal-overlay" *ngIf="showConfirmDialog">
+     <div class="modal-box">
+     <h3>Confirm Delete</h3>
+     <p>Are you sure you want to delete this flight?</p>
+     <div class="modal-actions">
+     <button (click)="confirmDelete()" class="confirm-btn">Yes</button>
+     <button (click)="cancelDelete()" class="cancel-btn">No</button>
+     </div>
+     </div>
+    </div>

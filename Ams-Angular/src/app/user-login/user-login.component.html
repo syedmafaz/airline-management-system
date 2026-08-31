@@ -1,0 +1,137 @@
+<!-- <div class="login_container">
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <div class="error_message" *ngIf="errorMsg" role="alert">
+        <i class='bx bx-error'></i>
+        {{ errorMsg }}
+      </div>
+      <h1>EasyGo - AMS</h1>
+  
+      <div class="input_box">
+        <label for="userName">User ID:</label>
+        <input 
+          type="text" 
+          id="userName"
+          name="userName" 
+          [(ngModel)]="userName" 
+          #userNameInput="ngModel"
+          placeholder="Enter the User Name" 
+          onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+          required
+          [class.invalid]="userNameInput.invalid && (userNameInput.dirty || userNameInput.touched)">
+        <i class='bx bxs-user'></i>
+        <div class="validation-error" *ngIf="userNameInput.invalid && (userNameInput.dirty || userNameInput.touched)">
+          <small *ngIf="userNameInput.errors?.['required']">User Name is required</small>
+          
+        </div>
+      </div>
+  
+      <div class="input_box">
+        <label for="password">Password:</label>
+        <input 
+          type="password" 
+          id="password"
+          name="password" 
+          [(ngModel)]="password" 
+          #passwordInput="ngModel"
+          placeholder="Enter the Password" 
+          maxlength="30" 
+          minlength="7"
+          required
+          [class.invalid]="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+        <i class='bx bxs-lock'></i>
+        <div class="validation-error" *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+          <small *ngIf="passwordInput.errors?.['required']">Password is required</small>
+          <small *ngIf="passwordInput.errors?.['minlength']">Password should be atleast 7 digits</small>
+        </div>
+      </div>
+  
+      <button 
+        type="submit" 
+        class="login_button" 
+        [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Login</span>
+        <span *ngIf="isLoading" class="loading-spinner">
+          <i class='bx bx-loader-alt bx-spin'></i>
+          Logging in...
+        </span>
+      </button>
+  
+      <div class="register_link">
+        <p>New User? <a routerLink="/user-signup">Register Yourself</a></p>
+      </div>
+    </form>
+  </div> -->
+
+
+
+  <div class="login_container">
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <div class="error_message" *ngIf="errorMsg" role="alert">
+      <i class='bx bx-error'></i>
+      {{ errorMsg }}
+    </div>
+    
+    <h1>EasyGo - AMS</h1>
+    <p class="login-subtitle">Login with your email and password</p>
+
+    <div class="input_box">
+      <label for="emailId">Email Address:</label>
+      <input 
+        type="email" 
+        id="emailId"
+        name="emailId" 
+        [(ngModel)]="emailId" 
+        #emailInput="ngModel"
+        placeholder="Enter your email address" 
+        required
+        email
+        (input)="clearError()"
+        [class.invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+      <i class='bx bx-envelope'></i>
+      <div class="validation-error" *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+        <small *ngIf="emailInput.errors?.['required']">Email is required</small>
+        <small *ngIf="emailInput.errors?.['email']">Please enter a valid email address</small>
+      </div>
+    </div>
+
+    <div class="input_box">
+      <label for="password">Password:</label>
+      <input 
+        type="password" 
+        id="password"
+        name="password" 
+        [(ngModel)]="password" 
+        #passwordInput="ngModel"
+        placeholder="Enter your password" 
+        maxlength="30" 
+        minlength="6"
+        required
+        (input)="clearError()"
+        [class.invalid]="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+      <i class='bx bxs-lock'></i>
+      <div class="validation-error" *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+        <small *ngIf="passwordInput.errors?.['required']">Password is required</small>
+        <small *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters</small>
+      </div>
+    </div>
+
+    <button 
+      type="submit" 
+      class="login_button" 
+      [disabled]="loginForm.invalid || isLoading">
+      <span *ngIf="!isLoading">Login</span>
+      <span *ngIf="isLoading" class="loading-spinner">
+        <i class='bx bx-loader-alt bx-spin'></i>
+        Logging in...
+      </span>
+    </button>
+
+    <div class="register_link">
+      <p>New User? <a routerLink="/user-signup">Register Yourself</a></p>
+    </div>
+    
+    <!-- <div class="forgot_password">
+      <a href="#" class="forgot-link">Forgot Password?</a>
+    </div> -->
+  </form>
+</div>

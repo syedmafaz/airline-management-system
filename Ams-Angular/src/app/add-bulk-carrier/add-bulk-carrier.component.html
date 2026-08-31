@@ -1,0 +1,123 @@
+<div class="form-container">
+  <h2>Add Bulk Carriers</h2>
+  
+  <!-- File Upload Section -->
+  <div class="form-group">
+    <label>Select Excel/CSV File</label>
+    <input 
+      type="file" 
+      id="fileInput"
+      accept=".xlsx,.xls,.csv" 
+      (change)="onFileSelected($event)"
+      class="file-input"
+    />
+    <small class="help-text">
+      <strong>Supported formats:</strong> .xlsx, .xls, .csv<br>
+      <strong>Required columns:</strong> CarrierName, DiscountPercentageThirtyDaysAdvanceBooking, DiscountPercentageSixtyDaysAdvanceBooking, DiscountPercentageNinteyDaysAdvanceBooking, RefundPercentageForTicketCancellation2DaysBeforeTravelDate, RefundPercentageForTicketCancellation10DaysBeforeTravelDate, RefundPercentageForTicketCancellation20DaysOrMoreBeforeTravelDate, SilverUserDiscount, GoldUserDiscount, PlatinumUserDiscount
+    </small>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Processing file...</p>
+  </div>
+
+  <!-- File Processing Summary -->
+  <div *ngIf="fileProcessed && !isLoading" class="summary-container">
+    <h3>File Processing Summary</h3>
+    <div class="summary-item">
+      <span class="summary-label">Total carriers to upload:</span>
+      <span class="summary-value">{{ carriers.length }}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">File:</span>
+      <span class="summary-value">{{ selectedFile?.name }}</span>
+    </div>
+  </div>
+
+  <!-- Upload Button -->
+  <button 
+    *ngIf="readyToUpload && !isLoading" 
+    type="button" 
+    (click)="onSubmit()"
+    [disabled]="carriers.length === 0"
+    class="upload-btn"
+  >
+    Upload {{ carriers.length }} Carriers
+  </button>
+
+  <!-- Status Message -->
+  <p class="status" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }" *ngIf="message && !isLoading">
+    {{ message }}
+  </p>
+
+  <!-- Validation Errors Modal -->
+  <div *ngIf="showValidationErrors" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Validation Errors Found</h3>
+        <button type="button" class="close-btn" (click)="closeValidationErrors()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Please fix the following errors in your file:</p>
+        
+        <div class="error-list">
+          <div *ngFor="let error of validationErrors" class="error-item">
+            <div class="error-row">
+              <strong>Row {{ error.row }}:</strong> {{ error.field }}
+            </div>
+            <div class="error-message">{{ error.error }}</div>
+            <div class="error-value">Value: "{{ error.value }}"</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="closeValidationErrors()" class="btn-secondary">
+          Close and Fix File
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duplicate Carriers Modal -->
+  <div *ngIf="showDuplicateDialog" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Duplicate Carriers Found</h3>
+        <button type="button" class="close-btn" (click)="onCancelUpload()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>The following carriers already exist in the system:</p>
+        
+        <div class="duplicate-list">
+          <div *ngFor="let duplicate of duplicateCarriers" class="duplicate-item">
+            <div class="duplicate-row">
+              <strong>Row {{ duplicate.row }}:</strong> {{ duplicate.carrier.carrierName }}
+            </div>
+            <div class="existing-info">
+              Already exists with ID: {{ duplicate.existingCarrier.carrierID }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="duplicate-summary">
+          <p><strong>{{ duplicateCarriers.length }}</strong> duplicate(s) found out of <strong>{{ carriers.length }}</strong> total carriers.</p>
+          <p>You can choose to skip the duplicates and upload the remaining carriers, or cancel the entire upload.</p>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="onProceedWithoutDuplicates()" class="btn-primary">
+          Skip Duplicates & Continue ({{ carriers.length - duplicateCarriers.length }} carriers)
+        </button>
+        <button type="button" (click)="onCancelUpload()" class="btn-secondary">
+          Cancel Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,140 @@
+<div class="form-container">
+  <h2>Add Bulk Flight Schedules</h2>
+
+  <!-- Flight Selection Section -->
+  <div class="form-group">
+    <label>Select Flight</label>
+    <select class="form-control" [(ngModel)]="selectedFlightId" (change)="onFlightSelected()">
+      <option value="">-- Select Flight --</option>
+      <option *ngFor="let flight of flights" [value]="flight.flightId">
+        {{ flight.origin }} → {{ flight.destination }} (Flight ID: {{ flight.flightId }})
+      </option>
+    </select>
+  </div>
+  
+  <!-- File Upload Section -->
+  <div class="form-group">
+    <label>Select Excel/CSV File</label>
+    <input 
+      type="file" 
+      id="fileInput"
+      accept=".xlsx,.xls,.csv" 
+      (change)="onFileSelected($event)"
+      class="file-input"
+      [disabled]="!selectedFlightId"
+    />
+<small class="help-text">
+  <strong>Supported formats:</strong> .xlsx, .xls, .csv<br>
+  <strong>Required columns:</strong> 
+  Date of Travel, Departure Date, Departure Time, 
+  Arrival Date, Arrival Time, 
+  Business Fare, Economy Fare, Executive Fare
+  <br>
+  <strong>Note:</strong> Schedule ID, Carrier Name, and Flight Number will be automatically set from the selected flight.
+</small>
+  </div>
+
+  <!-- Loading Indicator -->
+  <!-- <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Processing file...</p>
+  </div> -->
+
+  <!-- File Processing Summary -->
+  <div *ngIf="fileProcessed && !isLoading" class="summary-container">
+    <h3>File Processing Summary</h3>
+    <div class="summary-item">
+      <span class="summary-label">Total schedules to upload:</span>
+      <span class="summary-value">{{ schedules.length }}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">File:</span>
+      <span class="summary-value">{{ selectedFile?.name }}</span>
+    </div>
+  </div>
+
+  <!-- Upload Button -->
+  <button 
+    *ngIf="readyToUpload && !isLoading" 
+    type="button" 
+    (click)="onSubmit()"
+    [disabled]="schedules.length === 0"
+    class="upload-btn"
+  >
+    Upload {{ schedules.length }} Schedules
+  </button>
+
+  <!-- Status Message -->
+  <p class="status" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }" *ngIf="message && !isLoading">
+    {{ message }}
+  </p>
+
+  <!-- Validation Errors Modal -->
+  <div *ngIf="showValidationErrors" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Validation Errors Found</h3>
+        <button type="button" class="close-btn" (click)="closeValidationErrors()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Please fix the following errors in your file:</p>
+        
+        <div class="error-list">
+          <div *ngFor="let error of validationErrors" class="error-item">
+            <div class="error-row">
+              <strong>Row {{ error.row }}:</strong> {{ error.field }}
+            </div>
+            <div class="error-message">{{ error.error }}</div>
+            <div class="error-value">Value: "{{ error.value }}"</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="closeValidationErrors()" class="btn-secondary">
+          Close and Fix File
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div *ngIf="showDuplicateDialog" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Duplicate Schedules Found</h3>
+        <button type="button" class="close-btn" (click)="onCancelUpload()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>The following schedules already exist in the system for this flight:</p>
+        
+        <div class="duplicate-list">
+          <div *ngFor="let duplicate of duplicateSchedules" class="duplicate-item">
+            <div class="duplicate-row">
+              <strong>Row {{ duplicate.row }}:</strong> {{ duplicate.schedule.dateOfTravel | date }} 
+              ({{ duplicate.schedule.departureTime }} - {{ duplicate.schedule.arrivalTime }})
+            </div>
+            <div class="existing-info">
+              Already exists with Schedule ID: {{ duplicate.existingSchedule.flightScheduleId }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="duplicate-summary">
+          <p><strong>{{ duplicateSchedules.length }}</strong> duplicate(s) found out of <strong>{{ schedules.length }}</strong> total schedules.</p>
+          <p>You can choose to skip the duplicates and upload the remaining schedules, or cancel the entire upload.</p>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="onProceedWithoutDuplicates()" class="btn-primary">
+          Skip Duplicates & Continue ({{ schedules.length - duplicateSchedules.length }} schedules)
+        </button>
+        <button type="button" (click)="onCancelUpload()" class="btn-secondary">
+          Cancel Upload
+        </button>
+      </div>
+    </div>
+  </div>

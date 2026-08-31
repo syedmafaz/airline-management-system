@@ -1,0 +1,91 @@
+<!-- <div class="login-container">
+    <h2>Admin Login</h2>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="adminId">Admin User_Name:</label>
+        <input type="text" id="adminId" [(ngModel)]="adminId" name="adminId" required onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+        pattern="^[A-Za-z]*"
+        minlength="4"
+        #adminUserNameRef="ngModel"
+        />
+        <div
+              *ngIf="adminUserNameRef.invalid && adminUserNameRef.touched"
+              style="color: red; font-size: 13px;"
+            >
+              <span *ngIf="adminUserNameRef.errors?.['required']">Admin User Name is required.</span>
+              <span *ngIf="adminUserNameRef.errors?.['minlength']">Admin User name must be 5 characters only.</span>
+              <span *ngIf="adminUserNameRef.errors?.['pattern']">
+                Admin User name must start with letters only.
+              </span>
+            </div>
+
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Password:</label>
+        <input type="password" id="adminPassword" [(ngModel)]="adminPassword" name="adminPassword" required 
+        #passwordRef="ngModel"
+        minlength="7"
+        />
+        <div
+        *ngIf="passwordRef.invalid && passwordRef.touched"
+        style="color: red; font-size: 13px;"
+      >
+        <span *ngIf="passwordRef.errors?.['required']">Admin Password is required.</span>
+        <span *ngIf="passwordRef.errors?.['minlength']">Admin password must be 8 characters only.</span>
+        
+      </div>
+
+
+      </div>
+      <button type="submit">Login</button>
+      <p *ngIf="message" style="color:red; margin-top:10px;">{{ message }}</p>
+    </form>
+  </div> -->
+
+
+  <div class="login-container">
+    <h2>Admin Login</h2>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      
+      <div class="form-group">
+        <label for="adminId">Admin User_Name:</label>
+        <input 
+          type="text" 
+          id="adminId" 
+          [(ngModel)]="adminId" 
+          name="adminId" 
+          required 
+          onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+          pattern="^[A-Za-z]*"
+          minlength="4"
+          #adminUserNameRef="ngModel"
+        />
+        <div *ngIf="adminUserNameRef.invalid && adminUserNameRef.touched">
+          <span *ngIf="adminUserNameRef.errors?.['required']">Admin User Name is required.</span>
+          <span *ngIf="adminUserNameRef.errors?.['minlength']">Admin User name must be 5 characters only.</span>
+          <span *ngIf="adminUserNameRef.errors?.['pattern']">Admin User name must start with letters only.</span>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="adminPassword">Password:</label>
+        <input 
+          type="password" 
+          id="adminPassword" 
+          [(ngModel)]="adminPassword" 
+          name="adminPassword" 
+          required 
+          #passwordRef="ngModel"
+          minlength="7"
+        />
+        <div *ngIf="passwordRef.invalid && passwordRef.touched">
+          <span *ngIf="passwordRef.errors?.['required']">Admin Password is required.</span>
+          <span *ngIf="passwordRef.errors?.['minlength']">Admin password must be 8 characters only.</span>
+        </div>
+      </div>
+  
+      <button type="submit">Login</button>
+  
+      <p *ngIf="message" style="color:red; margin-top:10px;">{{ message }}</p>
+    </form>
+  </div>

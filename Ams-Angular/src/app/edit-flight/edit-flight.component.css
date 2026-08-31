@@ -1,0 +1,137 @@
+.edit-carrier-container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background: linear-gradient(to top right, #ffffff, #f3f6fd);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #303f9f;
+    font-size: 24px;
+  }
+  
+  /* Search Section */
+  .search-section {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  
+  .search-section label {
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+  }
+  
+  .search-section input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid #cfd8dc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.3s;
+  }
+  
+  .search-section input:focus {
+    border-color: #3f51b5;
+    outline: none;
+    box-shadow: 0 0 6px rgba(63, 81, 181, 0.15);
+  }
+  
+  /* Form Grid */
+  .field-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr 3fr;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .field-row label {
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+    word-break: break-word;
+  }
+  
+  .field-row input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1.2px solid #cfd8dc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .field-row input:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 6px rgba(63, 81, 181, 0.2);
+    outline: none;
+  }
+  
+  /* Buttons */
+  button {
+    padding: 12px 20px;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background-color 0.3s ease, transform 0.2s;
+  }
+  
+  button:hover {
+    background-color: #1a237e;
+    transform: translateY(-2px);
+  }
+  
+  /* Alert */
+  .alert {
+    margin-top: 25px;
+    padding: 14px 16px;
+    border-radius: 6px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+    font-weight: 500;
+    font-size: 15px;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  
+    .search-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    button {
+      width: 100%;
+    }
+  }

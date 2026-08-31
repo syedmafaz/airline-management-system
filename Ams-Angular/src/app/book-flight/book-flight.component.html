@@ -1,0 +1,844 @@
+<!-- <div class="container">
+  <h2>Book Flight</h2>
+
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+    <div class="flight-details">
+      <p><strong>Flight:</strong> {{ flightInfo }}</p>
+      <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+      <p><strong>Departure:</strong> {{ schedule.departureDate }} {{ schedule.departureTime }}</p>
+      <p><strong>Arrival:</strong> {{ schedule.arrivalDate }} {{ schedule.arrivalTime }}</p>
+    </div>
+
+    <label for="seatCategory">Seat Category</label>
+    <select formControlName="seatCategory" (change)="calculateFare()">
+      <option value="business">Business</option>
+      <option value="economy">Economy</option>
+      <option value="executive">Executive</option>
+    </select>
+
+    <label for="numberOfTickets">Number of Tickets</label>
+    <input type="number" formControlName="numberOfTickets" (change)="updatePassengerArray()" min="1" />
+
+    <div formArrayName="passengers">
+      <div *ngFor="let passenger of passengers.controls; let i = index" 
+           [formGroupName]="i" class="passenger-info">
+        <h4>Passenger {{ i + 1 }}</h4>
+        <label>Name:</label>
+        <input formControlName="name" />
+        <label>Age:</label>
+        <input formControlName="age" type="number" />
+        <label>Gender:</label>
+        <select formControlName="gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="total">Total Fare: ₹{{ totalAmount }}</p>
+
+    <button type="submit" [disabled]="bookingForm.invalid">Confirm Booking</button>
+  </form>
+
+  <p class="status" *ngIf="message">{{ message }}</p>
+</div> -->
+
+
+
+
+ <!-- <div class="container">
+    <h2>Book Flight</h2>
+  
+    <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+      <div class="flight-details">
+        <p><strong>Flight:</strong> {{ flightInfo }}</p>
+        <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+        <p><strong>Departure:</strong> {{ schedule.departureDate }} {{ schedule.departureTime }}</p>
+        <p><strong>Arrival:</strong> {{ schedule.arrivalDate }} {{ schedule.arrivalTime }}</p>
+      </div>
+  
+      <label for="seatCategory">Seat Category</label>
+      <select formControlName="seatCategory" (change)="calculateFare()">
+        <option value="business">Business</option>
+        <option value="economy">Economy</option>
+        <option value="executive">Executive</option>
+      </select>
+  
+      <label for="numberOfTickets">Number of Tickets</label>
+      <input type="number" formControlName="numberOfTickets" (change)="updatePassengerArray()" min="1" />
+  
+      <div formArrayName="passengers">
+        <div *ngFor="let passenger of passengers.controls; let i = index" 
+             [formGroupName]="i" class="passenger-info">
+          <h4>Passenger {{ i + 1 }}</h4>
+          <label>Name:</label>
+          <input formControlName="name" />
+          <label>Age:</label>
+          <input formControlName="age" type="number" />
+          <label>Gender:</label>
+          <select formControlName="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+  
+      <p class="total">Total Fare: ₹{{ totalAmount }}</p>
+  
+      <button type="submit" [disabled]="bookingForm.invalid">Confirm Booking</button>
+    </form>
+  
+    <p class="status" *ngIf="message">{{ message }}</p>
+  </div> -->
+
+
+  <!-- <div class="container">
+  <h2>Book Flight</h2>
+
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()" *ngIf="!bookingComplete">
+    <div class="flight-details">
+      <p><strong>Flight:</strong> {{ flightInfo }}</p>
+      <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+      <p><strong>Departure:</strong> {{ schedule.departureDate }} {{ schedule.departureTime }}</p>
+      <p><strong>Arrival:</strong> {{ schedule.arrivalDate }} {{ schedule.arrivalTime }}</p>
+    </div>
+
+    <div class="form-group">
+      <label for="seatCategory">Seat Category</label>
+      <select formControlName="seatCategory" (change)="calculateFare()" class="form-control">
+        <option value="">Select Category</option>
+        <option value="business">Business (₹{{schedule.businessClassFare}})</option>
+        <option value="economy">Economy (₹{{schedule.economyClassFare}})</option>
+        <option value="executive">Executive (₹{{schedule.executiveClassFare}})</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="numberOfTickets">Number of Tickets</label>
+      <input type="number" formControlName="numberOfTickets" 
+             (change)="updatePassengerArray()" min="1" class="form-control" />
+    </div>
+
+    <div formArrayName="passengers">
+      <div *ngFor="let passenger of passengers.controls; let i = index" 
+           [formGroupName]="i" class="passenger-info card mb-3">
+        <div class="card-header">
+          <h4>Passenger {{ i + 1 }}</h4>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Name:</label>
+            <input formControlName="name" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Age:</label>
+            <input formControlName="age" type="number" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Gender:</label>
+            <select formControlName="gender" class="form-control">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-details card mt-3" *ngIf="showPaymentDetails">
+      <div class="card-header">
+        <h4>Payment Details</h4>
+      </div>
+      <div class="card-body">
+        <p><strong>Base Fare:</strong> ₹{{ paymentDetails.baseFare }} x {{ paymentDetails.numberOfTickets }}</p>
+        <p><strong>Advance Booking Discount:</strong> {{ paymentDetails.discountPercentage }}% (₹{{ paymentDetails.discountAmount * paymentDetails.numberOfTickets }})</p>
+        <p><strong>Total Amount:</strong> ₹{{ paymentDetails.totalAmount }}</p>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3" [disabled]="bookingForm.invalid">
+      Confirm Booking
+    </button>
+  </form>
+
+  <div class="booking-success alert alert-success mt-3" *ngIf="bookingComplete">
+    <h4>Booking Confirmed!</h4>
+    <p>Your ticket #{{ bookingId }} has been booked successfully.</p>
+    <p>Your ticket PDF has been downloaded automatically.</p>
+    <p>You can view your bookings in the "My Bookings" section.</p>
+  </div>
+
+  <div class="alert alert-danger mt-3" *ngIf="message">{{ message }}</div>
+</div> -->
+
+
+
+<!-- book-flight.component.html -->
+<!-- <div class="container">
+  <h2>Book Flight</h2>
+
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+    <div class="flight-details">
+      <h3>Flight Details</h3>
+      <p><strong>Flight:</strong> {{ flightInfo }}</p>
+      <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+      <p><strong>Departure:</strong> {{ schedule.departureDate }} {{ schedule.departureTime }}</p>
+      <p><strong>Arrival:</strong> {{ schedule.arrivalDate }} {{ schedule.arrivalTime }}</p>
+      <p><strong>Days Until Travel:</strong> {{ daysUntilTravel }} days</p>
+    </div>
+
+    <div class="booking-form">
+      <label for="seatCategory">Seat Category</label>
+      <select formControlName="seatCategory" (change)="calculatePrice()">
+        <option value="economy">Economy</option>
+        <option value="business">Business</option>
+        <option value="executive">Executive</option>
+      </select>
+
+      <label for="numberOfTickets">Number of Tickets</label>
+      <input type="number" formControlName="numberOfTickets" 
+             (change)="updatePassengerArray()" min="1" />
+
+      <div formArrayName="passengers">
+        <div *ngFor="let passenger of passengers.controls; let i = index" 
+             [formGroupName]="i" class="passenger-info">
+          <h4>Passenger {{ i + 1 }}</h4>
+          <label>Name:</label>
+          <input formControlName="name" />
+          <label>Age:</label>
+          <input formControlName="age" type="number" />
+          <label>Gender:</label>
+          <select formControlName="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="price-breakdown" *ngIf="priceBreakdown && !isCalculating">
+      <h3>Fare Breakdown</h3>
+      <div class="fare-details">
+        <div class="fare-row">
+          <span>Base Fare ({{ bookingForm.value.numberOfTickets }} × {{ bookingForm.value.seatCategory }}):</span>
+          <span>₹{{ baseFare }}</span>
+        </div>
+        <div class="fare-row discount" *ngIf="discountAmount > 0">
+          <span>Advance Booking Discount ({{ discountPercentage }}%):</span>
+          <span>-₹{{ discountAmount }}</span>
+        </div>
+        <div class="fare-row total">
+          <span><strong>Total Amount:</strong></span>
+          <span><strong>₹{{ totalAmount }}</strong></span>
+        </div>
+        <div class="discount-info" *ngIf="daysUntilTravel >= 30">
+          <small>🎉 You're saving ₹{{ discountAmount }} by booking {{ daysUntilTravel }} days in advance!</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="isCalculating">
+      <p>Calculating fare...</p>
+    </div>
+
+    <button type="submit" [disabled]="bookingForm.invalid || isCalculating" 
+            class="confirm-btn">
+      Confirm Booking - ₹{{ totalAmount }}
+    </button>
+  </form>
+
+  <p class="status" [ngClass]="{'success': message.includes('✅'), 'error': message.includes('❌')}" 
+     *ngIf="message">{{ message }}</p>
+</div> -->
+
+
+<!-- <div class="container">
+  <h2>Book Flight</h2>
+
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+    <div class="flight-details">
+      <h3>Flight Details</h3>
+      <p><strong>Flight:</strong> {{ flightInfo }}</p>
+      <p><strong>Date of Travel:</strong> {{ schedule.dateOfTravel }}</p>
+      <p><strong>Departure:</strong> {{ schedule.departureDate }} {{ schedule.departureTime }}</p>
+      <p><strong>Arrival:</strong> {{ schedule.arrivalDate }} {{ schedule.arrivalTime }}</p>
+      <p><strong>Days Until Travel:</strong> {{ daysUntilTravel }} days</p>
+    </div>
+
+    <div class="booking-form">
+      <label for="seatCategory">Seat Category</label>
+      <select formControlName="seatCategory" (change)="calculatePrice()">
+        <option value="economy">Economy</option>
+        <option value="business">Business</option>
+        <option value="executive">Executive</option>
+      </select>
+
+      <label for="numberOfTickets">Number of Tickets</label>
+      <input type="number" formControlName="numberOfTickets" 
+             (change)="updatePassengerArray()" min="1" />
+
+      <div formArrayName="passengers">
+        <div *ngFor="let passenger of passengers.controls; let i = index" 
+             [formGroupName]="i" class="passenger-info">
+          <h4>Passenger {{ i + 1 }}</h4>
+          <label>Name:</label>
+          <input formControlName="name" />
+          <label>Age:</label>
+          <input formControlName="age" type="number" />
+          <label>Gender:</label>
+          <select formControlName="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="price-breakdown" *ngIf="showPaymentDetails && !isCalculating">
+      <h3>💰 Fare Breakdown</h3>
+      <div class="fare-details">
+        <div class="fare-row">
+          <span>Base Fare ({{ bookingForm.value.numberOfTickets }} × {{ bookingForm.value.seatCategory | titlecase }}):</span>
+          <span>₹{{ baseFare }}</span>
+        </div>
+        <div class="fare-row discount" *ngIf="discountAmount > 0">
+          <span>🎉 Advance Booking Discount ({{ discountPercentage }}%):</span>
+          <span>-₹{{ discountAmount }}</span>
+        </div>
+        <div class="fare-row total">
+          <span><strong>Total Amount:</strong></span>
+          <span><strong>₹{{ totalAmount }}</strong></span>
+        </div>
+        <div class="discount-info" *ngIf="daysUntilTravel >= 30">
+          <small>🎊 You're saving ₹{{ discountAmount }} by booking {{ daysUntilTravel }} days in advance!</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="isCalculating">
+      <p>🔄 Calculating fare...</p>
+    </div>
+
+    <button type="submit" [disabled]="bookingForm.invalid || isCalculating" 
+            class="confirm-btn">
+      Confirm Booking - ₹{{ totalAmount }}
+    </button>
+  </form>
+
+  <p class="status" [ngClass]="{'success': message.includes('✅'), 'error': message.includes('❌')}" 
+     *ngIf="message">{{ message }}</p>
+</div> -->
+
+
+<div class="booking-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1>✈️ Book Your Flight</h1>
+    <p class="subtitle">Complete your booking in just a few steps</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading flight details...</p>
+  </div>
+
+  <!-- ── Step Indicator ─────────────────────────────────────── -->
+  <div class="stepper" *ngIf="!loading && flight && schedule && carrier">
+    <div class="step" [class.active]="currentStep >= 1" [class.done]="currentStep > 1">
+      <div class="step-circle">{{ currentStep > 1 ? '✓' : '1' }}</div>
+      <span class="step-label">Booking Details</span>
+    </div>
+    <div class="step-line" [class.done]="currentStep > 1"></div>
+    <div class="step" [class.active]="currentStep >= 2" [class.done]="currentStep > 2">
+      <div class="step-circle">{{ currentStep > 2 ? '✓' : '2' }}</div>
+      <span class="step-label">Payment</span>
+    </div>
+    <div class="step-line" [class.done]="currentStep > 2"></div>
+    <div class="step" [class.active]="currentStep >= 3">
+      <div class="step-circle">3</div>
+      <span class="step-label">Confirmed</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading && flight && schedule && carrier" class="main-content">
+    <!-- Flight Information Card -->
+    <div class="flight-info-card">
+      <div class="card-header">
+        <h2>🛫 Flight Information</h2>
+        <span class="time-badge">⏰ {{ getTimeUntilDeparture() }} until departure</span>
+      </div>
+      
+      <div class="flight-details">
+        <div class="route-section">
+          <div class="route-display">
+            <div class="airport">
+              <span class="city">{{ flight.origin }}</span>
+              <span class="time">{{ schedule.departureTime }}</span>
+              <span class="date">{{ schedule.departureDate | date:'dd MMM yyyy' }}</span>
+            </div>
+            <div class="route-line">
+              <span class="plane-icon">✈️</span>
+            </div>
+            <div class="airport">
+              <span class="city">{{ flight.destination }}</span>
+              <span class="time">{{ schedule.arrivalTime }}</span>
+              <span class="date">{{ schedule.arrivalDate | date:'dd MMM yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flight-meta">
+          <div class="detail-item">
+            <span class="label">Carrier:</span>
+            <span class="value">{{ carrier.carrierName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Flight ID:</span>
+            <span class="value">#{{ flight.flightId }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Travel Date:</span>
+            <span class="value">{{ schedule.dateOfTravel | date:'EEEE, dd MMM yyyy' }}</span>
+          </div>
+          <div class="detail-item" *ngIf="daysUntilTravel > 0">
+            <span class="label">Days Until Travel:</span>
+            <span class="value advance-booking">{{ daysUntilTravel }} days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: Booking Form -->
+    <ng-container *ngIf="currentStep === 1">
+      <form [formGroup]="bookingForm" (ngSubmit)="proceedToPayment()" class="booking-form-card">
+        <div class="card-header">
+          <h2>🎫 Booking Details</h2>
+        </div>
+
+        <!-- Seat Selection -->
+        <div class="seat-selection-section">
+          <h3>💺 Select Seat Category</h3>
+          <div class="seat-categories">
+            <div class="seat-category" 
+                 *ngFor="let category of seatCategories"
+                 [class.selected]="bookingForm.get('seatCategory')?.value === category"
+                 [class.unavailable]="getAvailableSeatsForCategory(category) === 0">
+              <input 
+                type="radio" 
+                [value]="category" 
+                formControlName="seatCategory"
+                [id]="category"
+                (change)="onSeatCategoryChange()"
+                [disabled]="getAvailableSeatsForCategory(category) === 0">
+              <label [for]="category" class="category-label">
+                <div class="category-info">
+                  <span class="category-name">{{ category | titlecase }}</span>
+                  <span class="category-fare">₹{{ getSeatCategoryFare(category) | number }}</span>
+                </div>
+                <div class="availability-info">
+                  <span class="available-seats" 
+                        [ngClass]="{'no-seats': getAvailableSeatsForCategory(category) === 0}">
+                    {{ getAvailableSeatsForCategory(category) }} seats available
+                  </span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Number of Tickets -->
+        <div class="form-section">
+          <label for="numberOfTickets">🎟️ Number of Tickets (Maximum 5)</label>
+          <div class="input-group">
+            <input 
+              type="number" 
+              id="numberOfTickets"
+              formControlName="numberOfTickets" 
+              (change)="updatePassengerArray()" 
+              min="1" 
+              max="5"
+              [max]="getMaxAvailableSeats()"
+              class="number-input"
+              [class.error]="bookingForm.get('numberOfTickets')?.invalid && bookingForm.get('numberOfTickets')?.touched">
+            <div class="input-info">
+              <small>Available: {{ getMaxAvailableSeats() }} seats</small>
+            </div>
+          </div>
+          <div class="error-message" 
+               *ngIf="bookingForm.get('numberOfTickets')?.invalid && bookingForm.get('numberOfTickets')?.touched">
+            {{ getErrorMessage('numberOfTickets') }}
+          </div>
+        </div>
+
+        <!-- Passenger Details -->
+        <div class="passengers-section" formArrayName="passengers">
+          <h3>👥 Passenger Details</h3>
+          <div class="passengers-grid">
+            <div *ngFor="let passenger of passengers.controls; let i = index" 
+                 [formGroupName]="i" 
+                 class="passenger-card">
+              <div class="passenger-header">
+                <h4>Passenger {{ i + 1 }}</h4>
+                <span class="passenger-number">{{ i + 1 }}</span>
+              </div>
+              
+              <div class="passenger-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="name{{i}}">Full Name *</label>
+                    <input 
+                      type="text" 
+                      id="name{{i}}"
+                      formControlName="name" 
+                      placeholder="Enter full name"
+                      [class.error]="passenger.get('name')?.invalid && passenger.get('name')?.touched">
+                    <div class="error-message" 
+                         *ngIf="passenger.get('name')?.invalid && passenger.get('name')?.touched">
+                      {{ getErrorMessage('name', i) }}
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="age{{i}}">Age *</label>
+                    <input 
+                      type="number" 
+                      id="age{{i}}"
+                      formControlName="age" 
+                      placeholder="Age"
+                      min="1" 
+                      max="120"
+                      [class.error]="passenger.get('age')?.invalid && passenger.get('age')?.touched">
+                    <div class="error-message" 
+                         *ngIf="passenger.get('age')?.invalid && passenger.get('age')?.touched">
+                      {{ getErrorMessage('age', i) }}
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="gender{{i}}">Gender *</label>
+                    <select 
+                      id="gender{{i}}"
+                      formControlName="gender"
+                      [class.error]="passenger.get('gender')?.invalid && passenger.get('gender')?.touched">
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price Breakdown -->
+        <div class="price-breakdown-card" *ngIf="showPaymentDetails && !isCalculating">
+          <div class="card-header">
+            <h3>💰 Fare Breakdown</h3>
+          </div>
+          
+          <div class="fare-details">
+            <div class="fare-row">
+              <span class="fare-label">Base Fare ({{ bookingForm.value.numberOfTickets }} × {{ bookingForm.value.seatCategory | titlecase }}):</span>
+              <span class="fare-value">₹{{ baseFare | number }}</span>
+            </div>
+            
+            <div class="fare-row discount" *ngIf="discountAmount > 0">
+              <span class="fare-label">
+                🎉 Advance Booking Discount ({{ discountPercentage }}%):
+              </span>
+              <span class="fare-value discount-amount">-₹{{ discountAmount | number }}</span>
+            </div>
+            
+            <div class="fare-divider"></div>
+            
+            <div class="fare-row total">
+              <span class="fare-label total-label">Total Amount:</span>
+              <span class="fare-value total-amount">₹{{ totalAmount | number }}</span>
+            </div>
+            
+            <div class="discount-info" *ngIf="daysUntilTravel >= 30">
+              <div class="savings-badge">
+                🎊 You're saving ₹{{ discountAmount | number }} by booking {{ daysUntilTravel }} days in advance!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading Price Calculation -->
+        <div class="price-loading" *ngIf="isCalculating">
+          <div class="loading-spinner"></div>
+          <p>🔄 Calculating fare...</p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit-section">
+          <button 
+            type="submit" 
+            class="book-button"
+            [disabled]="bookingForm.invalid || isCalculating || getMaxAvailableSeats() === 0">
+            <span class="button-content">
+              <span class="button-icon">🔒</span>
+              <span class="button-text">Proceed to Payment — ₹{{ totalAmount | number }}</span>
+            </span>
+          </button>
+          
+          <div class="booking-note">
+            <small>
+              💡 You'll review and confirm payment on the next step.
+            </small>
+          </div>
+        </div>
+      </form>
+    </ng-container><!-- /STEP 1 -->
+
+    <!-- STEP 2: Payment Page -->
+    <ng-container *ngIf="currentStep === 2">
+      <div class="payment-page" [formGroup]="paymentForm">
+
+        <!-- Order Summary -->
+        <div class="order-summary-card">
+          <div class="card-header"><h2>🧾 Order Summary</h2></div>
+          <div class="order-summary-body">
+            <div class="os-row">
+              <span>Flight</span>
+              <span>{{ getFlightRoute() }}</span>
+            </div>
+            <div class="os-row">
+              <span>Date</span>
+              <span>{{ schedule?.dateOfTravel | date:'dd MMM yyyy' }}</span>
+            </div>
+            <div class="os-row">
+              <span>Class</span>
+              <span>{{ bookingForm.value.seatCategory | titlecase }}</span>
+            </div>
+            <div class="os-row">
+              <span>Passengers</span>
+              <span>{{ bookingForm.value.numberOfTickets }}</span>
+            </div>
+            <div class="os-row" *ngIf="discountAmount > 0">
+              <span>Discount ({{ discountPercentage }}%)</span>
+              <span class="discount-text">-₹{{ discountAmount | number }}</span>
+            </div>
+            <div class="os-divider"></div>
+            <div class="os-row os-total">
+              <span>Total Payable</span>
+              <span>₹{{ totalAmount | number }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method Selector -->
+        <div class="payment-method-card">
+          <div class="card-header">
+            <h2>💳 Select Payment Method</h2>
+            <span class="security-badge">🔒 256-bit SSL Secure</span>
+          </div>
+
+          <div class="pm-tabs">
+            <button type="button" class="pm-tab" [class.active]="paymentMethod==='upi'"
+                    (click)="setPaymentMethod('upi')">📱 UPI / QR Code</button>
+            <button type="button" class="pm-tab" [class.active]="paymentMethod==='card'"
+                    (click)="setPaymentMethod('card')">💳 Credit / Debit Card</button>
+            <button type="button" class="pm-tab" [class.active]="paymentMethod==='netbanking'"
+                    (click)="setPaymentMethod('netbanking')">🏦 Net Banking</button>
+          </div>
+
+          <!-- UPI Section -->
+          <div class="pm-body" *ngIf="paymentMethod==='upi'">
+            <div class="upi-apps-row">
+              <span class="upi-label">Popular UPI Apps:</span>
+              <div class="upi-apps-list">
+                <button type="button" class="upi-app-btn" [class.selected]="selectedUpiApp==='gpay'" (click)="selectUpiApp('gpay')">Google Pay</button>
+                <button type="button" class="upi-app-btn" [class.selected]="selectedUpiApp==='phonepe'" (click)="selectUpiApp('phonepe')">PhonePe</button>
+                <button type="button" class="upi-app-btn" [class.selected]="selectedUpiApp==='paytm'" (click)="selectUpiApp('paytm')">Paytm</button>
+                <button type="button" class="upi-app-btn" [class.selected]="selectedUpiApp==='bhim'" (click)="selectUpiApp('bhim')">BHIM</button>
+                <button type="button" class="upi-app-btn" [class.selected]="selectedUpiApp==='amazonpay'" (click)="selectUpiApp('amazonpay')">Amazon Pay</button>
+              </div>
+            </div>
+
+            <div class="upi-input-group">
+              <label for="upiId">Enter UPI ID (VPA)</label>
+              <input type="text" id="upiId" formControlName="upiId" placeholder="e.g. yourname@oksbi"
+                     class="pm-input" [class.error]="paymentForm.get('upiId')?.invalid && paymentForm.get('upiId')?.touched">
+              <small class="pm-hint">💡 Enter your Virtual Payment Address (e.g. mobile@upi, username@okhdfcbank)</small>
+            </div>
+
+            <div class="qr-code-box">
+              <div class="qr-graphic">
+                <svg width="120" height="120" viewBox="0 0 120 120">
+                  <rect width="120" height="120" fill="white" rx="8"/>
+                  <rect x="10" y="10" width="35" height="35" fill="#2c3e50" rx="4"/>
+                  <rect x="15" y="15" width="25" height="25" fill="white" rx="2"/>
+                  <rect x="20" y="20" width="15" height="15" fill="#2c3e50" rx="1"/>
+                  <rect x="75" y="10" width="35" height="35" fill="#2c3e50" rx="4"/>
+                  <rect x="80" y="15" width="25" height="25" fill="white" rx="2"/>
+                  <rect x="85" y="20" width="15" height="15" fill="#2c3e50" rx="1"/>
+                  <rect x="10" y="75" width="35" height="35" fill="#2c3e50" rx="4"/>
+                  <rect x="15" y="80" width="25" height="25" fill="white" rx="2"/>
+                  <rect x="20" y="85" width="15" height="15" fill="#2c3e50" rx="1"/>
+                  <rect x="52" y="15" width="15" height="8" fill="#007bff"/>
+                  <rect x="52" y="30" width="15" height="15" fill="#2c3e50"/>
+                  <rect x="15" y="52" width="15" height="15" fill="#2c3e50"/>
+                  <rect x="35" y="52" width="20" height="15" fill="#007bff"/>
+                  <rect x="60" y="52" width="15" height="15" fill="#2c3e50"/>
+                  <rect x="80" y="52" width="25" height="15" fill="#007bff"/>
+                  <rect x="52" y="75" width="15" height="30" fill="#2c3e50"/>
+                  <rect x="75" y="75" width="30" height="15" fill="#2c3e50"/>
+                  <rect x="80" y="95" width="25" height="15" fill="#007bff"/>
+                </svg>
+              </div>
+              <div class="qr-text">
+                <strong>Or scan QR code with any UPI App</strong>
+                <p>Google Pay • PhonePe • Paytm • BHIM • Cred</p>
+                <small class="amount-tag">Pay ₹{{ totalAmount | number }}</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Section -->
+          <div class="pm-body" *ngIf="paymentMethod==='card'">
+            <div class="card-preview">
+              <div class="card-chip">💳</div>
+              <div class="card-digits">{{ paymentForm.get('cardNumber')?.value || '•••• •••• •••• ••••' }}</div>
+              <div class="card-bottom">
+                <div class="card-holder-name">
+                  <small>CARDHOLDER</small>
+                  <span>{{ paymentForm.get('cardName')?.value || 'YOUR NAME' }}</span>
+                </div>
+                <div class="card-val-thru">
+                  <small>EXPIRES</small>
+                  <span>{{ paymentForm.get('cardExpiry')?.value || 'MM/YY' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-inputs">
+              <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" formControlName="cardNumber" (input)="formatCardNumber($event)"
+                       placeholder="1234 5678 9012 3456" maxlength="19" class="pm-input">
+              </div>
+
+              <div class="form-group">
+                <label for="cardName">Cardholder Name</label>
+                <input type="text" id="cardName" formControlName="cardName" placeholder="Name as on card" class="pm-input">
+              </div>
+
+              <div class="pm-row">
+                <div class="pm-col">
+                  <label for="cardExpiry">Expiry Date</label>
+                  <input type="text" id="cardExpiry" formControlName="cardExpiry" (input)="formatCardExpiry($event)"
+                         placeholder="MM/YY" maxlength="5" class="pm-input">
+                </div>
+                <div class="pm-col">
+                  <label for="cardCvv">CVV / CVC</label>
+                  <input type="password" id="cardCvv" formControlName="cardCvv" placeholder="•••" maxlength="4" class="pm-input">
+                </div>
+              </div>
+            </div>
+            <small class="pm-hint">🔒 All card transactions are 256-bit SSL encrypted and PCI-DSS compliant.</small>
+          </div>
+
+          <!-- Net Banking Section -->
+          <div class="pm-body" *ngIf="paymentMethod==='netbanking'">
+            <label class="bank-label">Popular Banks:</label>
+            <div class="popular-banks-grid">
+              <button type="button" *ngFor="let bank of popularBanks" 
+                      class="bank-btn" [class.selected]="selectedBank===bank"
+                      (click)="selectBank(bank)">
+                🏛️ {{ bank }}
+              </button>
+            </div>
+
+            <div class="all-banks-select">
+              <label for="bankName">Or Choose Another Bank:</label>
+              <select id="bankName" formControlName="bankName" (change)="selectBank($any($event.target).value)" class="pm-input">
+                <option *ngFor="let b of allBanks" [value]="b">{{ b }}</option>
+              </select>
+            </div>
+            <small class="pm-hint">ℹ️ You will be securely redirected to your bank's portal to authenticate payment.</small>
+          </div>
+
+          <!-- Error Feedback -->
+          <div *ngIf="message && message.includes('❌')" class="pm-error">{{ message }}</div>
+
+          <!-- Action Buttons -->
+          <div class="pm-actions">
+            <button type="button" class="pm-back-btn" (click)="backToBookingDetails()">
+              ← Back to Details
+            </button>
+            <button type="button" class="pm-pay-btn" (click)="processPayment()" [disabled]="paymentProcessing">
+              <span *ngIf="!paymentProcessing">🔒 Pay ₹{{ totalAmount | number }} & Confirm</span>
+              <span *ngIf="paymentProcessing">⏳ Processing Payment...</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </ng-container><!-- /STEP 2 -->
+
+    <!-- STEP 3: Booking Confirmed -->
+    <ng-container *ngIf="currentStep === 3">
+      <div class="booking-success">
+        <div class="success-icon">🎉</div>
+        <h2>Flight Booking Confirmed!</h2>
+        <p class="success-title">Thank you! Your payment of <strong>₹{{ totalAmount | number }}</strong> was successful.</p>
+        
+        <div class="booking-ref-box" *ngIf="bookedBookingId">
+          <span class="ref-label">Booking Reference ID</span>
+          <span class="ref-number">#{{ bookedBookingId }}</span>
+        </div>
+
+        <div class="success-details">
+          <div class="sd-row"><span>Route</span><strong>{{ getFlightRoute() }}</strong></div>
+          <div class="sd-row"><span>Travel Date</span><strong>{{ schedule?.dateOfTravel | date:'EEEE, dd MMM yyyy' }}</strong></div>
+          <div class="sd-row"><span>Flight Times</span><span>{{ schedule?.departureTime }} → {{ schedule?.arrivalTime }}</span></div>
+          <div class="sd-row"><span>Carrier</span><span>{{ carrier?.carrierName }} (Flight #{{ flight?.flightId }})</span></div>
+          <div class="sd-row"><span>Seat Class</span><span class="seat-badge">{{ bookingForm.value.seatCategory | titlecase }}</span></div>
+          <div class="sd-row"><span>Tickets</span><span>{{ bookingForm.value.numberOfTickets }} Passenger(s)</span></div>
+          <div class="sd-row total-row"><span>Amount Paid</span><strong>₹{{ totalAmount | number }}</strong></div>
+        </div>
+
+        <div class="success-actions">
+          <button type="button" class="btn btn-download" *ngIf="bookedBookingId" (click)="downloadTicket(bookedBookingId)">
+            📥 Download Ticket (PDF)
+          </button>
+          <button type="button" class="btn btn-view-bookings" (click)="navigateToUserBookings()">
+            🎫 View My Bookings
+          </button>
+          <button type="button" class="btn btn-book-another" (click)="navigateToFlightSearch()">
+            ✈️ Book Another Flight
+          </button>
+        </div>
+      </div>
+    </ng-container><!-- /STEP 3 -->
+
+    <!-- Status Message (step 1 only) -->
+    <div *ngIf="message && currentStep === 1" class="status-message" 
+         [ngClass]="{'success': message.includes('✅'), 'error': message.includes('❌')}">
+      <i class="status-icon">{{ message.includes('✅') ? '✅' : '❌' }}</i>
+      <span>{{ message }}</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && (!flight || !schedule || !carrier)" class="error-state">
+    <div class="error-icon">❌</div>
+    <h3>Unable to Load Flight Details</h3>
+    <p>Please try again or go back to flight selection.</p>
+    <button class="btn btn-primary" (click)="navigateToFlightSearch()">
+      ← Back to Flight Search
+    </button>
+  </div>
+</div>

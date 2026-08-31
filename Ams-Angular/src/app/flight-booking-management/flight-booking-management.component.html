@@ -1,0 +1,230 @@
+<!-- <div class="container">
+  <h2>Flight Booking Management</h2>
+
+  <div class="filters">
+    <input type="text" placeholder="Origin" [(ngModel)]="originFilter">
+    <input type="text" placeholder="Destination" [(ngModel)]="destinationFilter">
+    <input type="date" [(ngModel)]="travelDateFilter">
+    <select [(ngModel)]="seatCategoryFilter">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of seatCategories" [value]="category">{{ category }}</option>
+    </select>
+    <button (click)="applyFilter()">Search</button>
+    <button (click)="viewAll()">View All</button>
+  </div>
+
+  <p class="status" *ngIf="message">{{ message }}</p>
+
+  <table class="flight-table" *ngIf="filteredSchedules.length > 0">
+    <thead>
+      <tr>
+        <th>Schedule ID</th>
+        <th>Carrier</th>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Date of Travel</th>
+        <th>Departure</th>
+        <th>Arrival</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let schedule of filteredSchedules">
+        <td>{{ schedule.flightScheduleId }}</td>
+        <td>{{ getCarrierName(schedule.flightId) }}</td>
+        <td>{{ getFlightOrigin(schedule.flightId) }}</td>
+        <td>{{ getFlightDestination(schedule.flightId) }}</td>
+        <td>{{ schedule.dateOfTravel }}</td>
+        <td>{{ schedule.departureDate }} {{ schedule.departureTime }}</td>
+        <td>{{ schedule.arrivalDate }} {{ schedule.arrivalTime }}</td>
+        <td>
+          <button (click)="bookFlight(schedule.flightScheduleId)" class="book-btn">Book</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="filteredSchedules.length === 0">No schedules match your criteria.</p>
+</div> -->
+
+
+
+<div class="container">
+  <div class="header">
+    <h2>🛫 Available Flight Schedules</h2>
+    <p class="subtitle">Book flights departing more than 3 hours from now</p>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading available flights...</p>
+  </div>
+
+  <!-- Search Filters -->
+  <div class="filters-card" *ngIf="!loading">
+    <h3>🔍 Search Flights</h3>
+    <div class="filters">
+      <div class="filter-group">
+        <label>From</label>
+        <input 
+          type="text" 
+          placeholder="Origin city" 
+          [(ngModel)]="originFilter"
+          class="filter-input"
+        >
+      </div>
+      
+      <div class="filter-group">
+        <label>To</label>
+        <input 
+          type="text" 
+          placeholder="Destination city" 
+          [(ngModel)]="destinationFilter"
+          class="filter-input"
+        >
+      </div>
+      
+      <div class="filter-group">
+        <label>Travel Date</label>
+        <input 
+          type="date" 
+          [(ngModel)]="travelDateFilter"
+          class="filter-input"
+          [min]="getCurrentDate()"
+        >
+      </div>
+      
+      <div class="filter-group">
+        <label>Seat Category</label>
+        <select [(ngModel)]="seatCategoryFilter" class="filter-select">
+          <option value="">All Categories</option>
+          <option *ngFor="let category of seatCategories" [value]="category">
+            {{ category | titlecase }}
+          </option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="filter-actions">
+      <button (click)="applyFilter()" class="btn btn-primary">
+        🔍 Search Flights
+      </button>
+      <button (click)="viewAll()" class="btn btn-secondary">
+        📋 View All Available
+      </button>
+      <button (click)="clearFilters()" class="btn btn-outline">
+        🗑️ Clear Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Status Message -->
+  <div *ngIf="message" class="status-message" 
+       [ngClass]="{'success': filteredSchedules.length > 0, 'warning': filteredSchedules.length === 0}">
+    <i class="icon">{{ filteredSchedules.length > 0 ? '✅' : '⚠️' }}</i>
+    {{ message }}
+  </div>
+
+  <!-- Flight Results -->
+  <div *ngIf="filteredSchedules.length > 0 && !loading" class="flights-container">
+    <div class="results-header">
+      <h3>Available Flights ({{ filteredSchedules.length }})</h3>
+      <p>Showing flights with departure time more than 3 hours from now</p>
+    </div>
+
+    <div class="flights-grid">
+      <div *ngFor="let schedule of filteredSchedules" class="flight-card">
+        <!-- Flight Header -->
+        <div class="flight-header">
+          <div class="airline-info">
+            <h4>{{ getCarrierName(schedule.flightId) }}</h4>
+            <span class="flight-id">Flight Schedule #{{ schedule.flightScheduleId }}</span>
+          </div>
+          <div class="time-info">
+            <span class="departure-time">⏰ {{ getTimeUntilDeparture(schedule) }}</span>
+          </div>
+        </div>
+
+        <!-- Route Information -->
+        <div class="route-section">
+          <div class="route-info">
+            <div class="origin">
+              <span class="city">{{ getFlightOrigin(schedule.flightId) }}</span>
+              <span class="time">{{ schedule.departureTime }}</span>
+              <span class="date">{{ schedule.departureDate | date:'dd MMM' }}</span>
+            </div>
+            <div class="route-line">
+              <span class="arrow">✈️</span>
+            </div>
+            <div class="destination">
+              <span class="city">{{ getFlightDestination(schedule.flightId) }}</span>
+              <span class="time">{{ schedule.arrivalTime }}</span>
+              <span class="date">{{ schedule.arrivalDate | date:'dd MMM' }}</span>
+            </div>
+          </div>
+          <div class="travel-date">
+            <strong>{{ schedule.dateOfTravel | date:'EEEE, dd MMM yyyy' }}</strong>
+          </div>
+        </div>
+
+        <!-- Seat Availability -->
+        <div class="seats-section">
+          <h4>💺 Seat Availability & Pricing</h4>
+          <div class="seat-categories">
+            <div *ngFor="let category of seatCategories" class="seat-category">
+              <div class="category-header">
+                <span class="category-name">{{ category | titlecase }}</span>
+                <span class="fare">₹{{ getFare(schedule, category) | number }}</span>
+              </div>
+              <div class="availability">
+                <span class="seats-count" 
+                      [ngClass]="{'available': hasAvailableSeats(schedule, category), 
+                                  'unavailable': !hasAvailableSeats(schedule, category)}">
+                  {{ getAvailableSeats(schedule, category) }} seats available
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Status & Action -->
+        <div class="booking-section">
+          <div class="status">
+            <span class="status-text" 
+                  [ngClass]="{'bookable': isBookable(schedule), 'not-bookable': !isBookable(schedule)}">
+              {{ getBookingStatus(schedule) }}
+            </span>
+          </div>
+          <button 
+            (click)="bookFlight(schedule.flightScheduleId)" 
+            class="book-btn"
+            [disabled]="!isScheduleBookable(schedule)"
+            [ngClass]="{'available': isScheduleBookable(schedule),
+                       'disabled': !isScheduleBookable(schedule)}">
+            <span *ngIf="isScheduleBookable(schedule)">
+              🎫 Book Now
+            </span>
+            <span *ngIf="!isBookable(schedule)">
+              ⏰ Booking Closed
+            </span>
+            <span *ngIf="isBookable(schedule) && !hasAnySeatAvailable(schedule)">
+              😔 Fully Booked
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredSchedules.length === 0 && !loading" class="empty-state">
+    <div class="empty-icon">🛫</div>
+    <h3>No Available Flights</h3>
+    <p>No flights match your search criteria or all flights are within 3 hours of departure.</p>
+    <div class="empty-actions">
+      <button (click)="clearFilters()" class="btn btn-primary">Clear Filters</button>
+      <button (click)="viewAll()" class="btn btn-secondary">View All Available</button>
+    </div>
+  </div>
+</div>

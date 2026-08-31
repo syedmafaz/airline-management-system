@@ -1,0 +1,81 @@
+ <div class="form-container">
+    <h2>Add New Carrier</h2>
+  
+    <form (ngSubmit)="onSubmit()" #carrierForm="ngForm">
+        <div class="form-group">
+            <label>Carrier Name</label>
+            <input
+              type="text"
+              name="carrierName"
+              [(ngModel)]="carrier.carrierName"
+              required
+              minlength="6"
+              pattern="^[A-Za-z]*"
+              onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+              #carrierNameRef="ngModel"
+            />
+            <div
+              *ngIf="carrierNameRef.invalid && carrierNameRef.touched"
+              style="color: red; font-size: 13px;"
+            >
+              <span *ngIf="carrierNameRef.errors?.['required']">Carrier name is required.</span>
+              <span *ngIf="carrierNameRef.errors?.['minlength']">Carrier name must be at least 6 characters.</span>
+              <span *ngIf="carrierNameRef.errors?.['pattern']">
+                Carrier name must start with letters only.
+              </span>
+            </div>
+          </div>
+  
+      <!-- existing numeric fields stay the same -->
+      <div class="form-group">
+        <label>30 Days Advance Booking Discount (%)</label>
+        <input type="number" [(ngModel)]="carrier.discountPercentageThirtyDaysAdvanceBooking" name="discount30" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>60 Days Advance Booking Discount (%)</label>
+        <input type="number" [(ngModel)]="carrier.discountPercentageSixtyDaysAdvanceBooking" name="discount60" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>90 Days Advance Booking Discount (%)</label>
+        <input type="number" [(ngModel)]="carrier.discountPercentageNinteyDaysAdvanceBooking" name="discount90" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>Refund if Canceled 2 Days Before Travel (%)</label>
+        <input type="number" [(ngModel)]="carrier.refundPercentageForTicketCancellation2DaysBeforeTravelDate" name="refund2" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>Refund if Canceled 10 Days Before Travel (%)</label>
+        <input type="number" [(ngModel)]="carrier.refundPercentageForTicketCancellation10DaysBeforeTravelDate" name="refund10" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>Refund if Canceled 20+ Days Before Travel (%)</label>
+        <input type="number" [(ngModel)]="carrier.refundPercentageForTicketCancellation20DaysOrMoreBeforeTravelDate" name="refund20" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>Silver User Discount (%)</label>
+        <input type="number" [(ngModel)]="carrier.silverUserDiscount" name="silverDiscount" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>Gold User Discount (%)</label>
+        <input type="number" [(ngModel)]="carrier.goldUserDiscount" name="goldDiscount" required min="0" />
+      </div>
+  
+      <div class="form-group">
+        <label>Platinum User Discount (%)</label>
+        <input type="number" [(ngModel)]="carrier.platinumUserDiscount" name="platinumDiscount" required min="0" />
+      </div>
+  
+      <button type="submit" [disabled]="carrierForm.invalid">Add Carrier</button>
+  
+      <p class="status" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }" *ngIf="message">
+        {{ message }}
+      </p>
+    </form>
+  </div>

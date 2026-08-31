@@ -1,0 +1,362 @@
+<!-- <div class="signup-container">
+  <h2>Register New User</h2>
+  
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+    <div class="form-group">
+      <label for="userName">Name</label>
+      <input 
+        id="userName" 
+        type="text" 
+        formControlName="userName" 
+        [class.invalid]="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched"
+        onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+      >
+      <div class="error-message" *ngIf="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched">
+        {{ getErrorMessage('userName') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input 
+        id="password" 
+        type="password" 
+        formControlName="password"
+        [class.invalid]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+      >
+      <div class="error-message" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+        {{ getErrorMessage('password') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input 
+        id="phone" 
+        type="tel" 
+        formControlName="phone"
+        [class.invalid]="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched"
+
+        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+      >
+      <div class="error-message" *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched">
+        {{ getErrorMessage('phone') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="emailId">Email</label>
+      <input 
+        id="emailId" 
+        type="email" 
+        formControlName="emailId"
+        [class.invalid]="signupForm.get('emailId')?.invalid && signupForm.get('emailId')?.touched"
+      >
+      <div class="error-message" *ngIf="signupForm.get('emailId')?.invalid && signupForm.get('emailId')?.touched">
+        {{ getErrorMessage('emailId') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address1">Address Line 1</label>
+      <input id="address1" type="text" formControlName="address1"
+      onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="address2">Address Line 2</label>
+      <input id="address2" type="text" formControlName="address2"
+      onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+      >
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half-width">
+        <label for="city">City</label>
+        <input id="city" type="text" formControlName="city"
+        onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+        >
+      </div>
+
+      <div class="form-group half-width">
+        <label for="state">State</label>
+        <input id="state" type="text" formControlName="state"
+        onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+        >
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half-width">
+        <label for="country">Country</label>
+        <input id="country" type="text" formControlName="country"
+        onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+        >
+      </div>
+
+      <div class="form-group half-width">
+        <label for="zipCode">Zip Code</label>
+        <input 
+          id="zipCode" 
+          type="text" 
+          formControlName="zipCode"
+          [class.invalid]="signupForm.get('zipCode')?.invalid && signupForm.get('zipCode')?.touched"
+        >
+        <div class="error-message" *ngIf="signupForm.get('zipCode')?.invalid && signupForm.get('zipCode')?.touched">
+          {{ getErrorMessage('zipCode') }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input 
+        id="dob" 
+        type="date" 
+        formControlName="dob"
+        [class.invalid]="signupForm.get('dob')?.invalid && signupForm.get('dob')?.touched"
+      >
+      <div class="error-message" *ngIf="signupForm.get('dob')?.invalid && signupForm.get('dob')?.touched">
+        {{ getErrorMessage('dob') }}
+      </div>
+    </div>
+
+    <input type="hidden" formControlName="role">
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="!signupForm.valid">Register</button>
+      <a routerLink="/user-login" class="btn-link">Already have an account? Login</a>
+    </div>
+  </form>
+</div> -->
+
+
+
+<div class="signup-container">
+  <!-- Registration Success Message -->
+  <div *ngIf="registrationSuccess" class="success-container">
+    <h2>🎉 Registration Successful!</h2>
+    <div class="success-details">
+      <p><strong>Welcome to EasyGo Airlines! {{signupForm.get('userName')?.value}}</strong></p>
+      <p>Your account has been created successfully.</p>
+      
+      <p class="note">You can login with your emailId and Password</p>
+      <div class="success-actions">
+        <button class="btn-primary" (click)="redirectToLogin()">Go to Login</button>
+        <p class="auto-redirect">You'll be redirected automatically in 5 seconds...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Form -->
+  <div *ngIf="!registrationSuccess">
+    <h2>Register New User</h2>
+    
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup-form">
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="userName">Name *</label>
+        <input 
+          id="userName" 
+          type="text" 
+          formControlName="userName" 
+          [class.invalid]="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched"
+          placeholder="Enter your full name"
+        >
+        <div class="error-message" *ngIf="signupForm.get('userName')?.invalid && signupForm.get('userName')?.touched">
+          {{ getErrorMessage('userName') }}
+        </div>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="emailId">Email *</label>
+        <div class="input-container">
+          <input 
+            id="emailId" 
+            type="email" 
+            formControlName="emailId"
+            [class.invalid]="signupForm.get('emailId')?.invalid && signupForm.get('emailId')?.touched"
+            placeholder="Enter your email address"
+          >
+          <div class="checking-indicator" *ngIf="isEmailChecking">
+            <span class="spinner-small"></span> Checking...
+          </div>
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('emailId')?.invalid && signupForm.get('emailId')?.touched">
+          {{ getErrorMessage('emailId') }}
+        </div>
+      </div>
+
+      <!-- Date of Birth Field -->
+      <div class="form-group">
+        <label for="dob">Date of Birth *</label>
+        <input 
+          id="dob" 
+          type="date" 
+          formControlName="dob"
+          [class.invalid]="signupForm.get('dob')?.invalid && signupForm.get('dob')?.touched"
+          [max]="getTodayDate()"
+        >
+        <div class="error-message" *ngIf="signupForm.get('dob')?.invalid && signupForm.get('dob')?.touched">
+          {{ getErrorMessage('dob') }}
+        </div>
+      </div>
+
+      <!-- Phone Field -->
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input 
+          id="phone" 
+          type="tel" 
+          formControlName="phone"
+          [class.invalid]="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched"
+          placeholder="10-digit mobile number"
+          maxlength="10"
+        >
+        <div class="error-message" *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched">
+          {{ getErrorMessage('phone') }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input 
+          id="password" 
+          type="password" 
+          formControlName="password"
+          [class.invalid]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+          placeholder="Create a strong password"
+        >
+        <div class="password-requirements">
+          <small>Password must contain: uppercase, lowercase, number, and special character</small>
+        </div>
+        <div class="error-message" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password *</label>
+        <input 
+          id="confirmPassword" 
+          type="password" 
+          formControlName="confirmPassword"
+          [class.invalid]="(signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['passwordMismatch']) && signupForm.get('confirmPassword')?.touched"
+          placeholder="Re-enter your password"
+        >
+        <div class="error-message" *ngIf="(signupForm.get('confirmPassword')?.invalid || signupForm.errors?.['passwordMismatch']) && signupForm.get('confirmPassword')?.touched">
+          {{ getErrorMessage('confirmPassword') }}
+        </div>
+      </div>
+
+      <!-- Address Fields -->
+      <div class="form-group">
+        <label for="address1">Address Line 1</label>
+        <input 
+          id="address1" 
+          type="text" 
+          formControlName="address1"
+          [class.invalid]="signupForm.get('address1')?.invalid && signupForm.get('address1')?.touched"
+          placeholder="Street address, P.O. Box, company name"
+        >
+        <div class="error-message" *ngIf="signupForm.get('address1')?.invalid && signupForm.get('address1')?.touched">
+          {{ getErrorMessage('address1') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address2">Address Line 2</label>
+        <input 
+          id="address2" 
+          type="text" 
+          formControlName="address2"
+          [class.invalid]="signupForm.get('address2')?.invalid && signupForm.get('address2')?.touched"
+          placeholder="Apartment, suite, unit, building, floor, etc."
+        >
+        <div class="error-message" *ngIf="signupForm.get('address2')?.invalid && signupForm.get('address2')?.touched">
+          {{ getErrorMessage('address2') }}
+        </div>
+      </div>
+
+      <!-- City, State Row -->
+      <div class="form-group">
+        <div class="form-group half-width">
+          <label for="city">City</label>
+          <input 
+            id="city" 
+            type="text" 
+            formControlName="city"
+            [class.invalid]="signupForm.get('city')?.invalid && signupForm.get('city')?.touched"
+            placeholder="Enter city"
+          >
+          <div class="error-message" *ngIf="signupForm.get('city')?.invalid && signupForm.get('city')?.touched">
+            {{ getErrorMessage('city') }}
+          </div>
+        </div>
+        </div>
+        <div class="form-group">
+        <div class="form-group half-width">
+          <label for="state">State</label>
+          <input 
+            id="state" 
+            type="text" 
+            formControlName="state"
+            [class.invalid]="signupForm.get('state')?.invalid && signupForm.get('state')?.touched"
+            placeholder="Enter state"
+          >
+          <div class="error-message" *ngIf="signupForm.get('state')?.invalid && signupForm.get('state')?.touched">
+            {{ getErrorMessage('state') }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Country, Zip Code Row -->
+      <div class="form-group">
+        <div class="form-group half-width">
+          <label for="country">Country</label>
+          <input 
+            id="country" 
+            type="text" 
+            formControlName="country"
+            [class.invalid]="signupForm.get('country')?.invalid && signupForm.get('country')?.touched"
+            placeholder="Enter country"
+          >
+          <div class="error-message" *ngIf="signupForm.get('country')?.invalid && signupForm.get('country')?.touched">
+            {{ getErrorMessage('country') }}
+          </div>
+        </div>
+        </div>
+        <div class="form-group">
+        <div class="form-group half-width">
+          <label for="zipCode">Zip Code</label>
+          <input 
+            id="zipCode" 
+            type="text" 
+            formControlName="zipCode"
+            [class.invalid]="signupForm.get('zipCode')?.invalid && signupForm.get('zipCode')?.touched"
+            placeholder="5-6 digits"
+            maxlength="6"
+          >
+          <div class="error-message" *ngIf="signupForm.get('zipCode')?.invalid && signupForm.get('zipCode')?.touched">
+            {{ getErrorMessage('zipCode') }}
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" formControlName="role">
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="!signupForm.valid || isEmailChecking">
+          <span *ngIf="!isEmailChecking">Register</span>
+          <span *ngIf="isEmailChecking">Validating...</span>
+        </button>
+        <a routerLink="/user-login" class="btn-link">Already have an account? Login</a>
+      </div>
+    </form>
+  </div>
+</div>

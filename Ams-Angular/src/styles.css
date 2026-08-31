@@ -1,0 +1,117 @@
+/* Global Responsive Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  color: #2c3e50;
+  background-color: #f8f9fa;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fluid Media */
+img, video, iframe, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive Table Wrappers & Touch Sliding */
+.table-responsive,
+.table-container,
+.data-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
+.table-responsive table,
+.table-container table,
+.data-table-wrapper table,
+.flight-table,
+.carrier-table,
+.data-table {
+  min-width: 800px;
+}
+
+/* Scrollbar styling for touch sliding tables */
+.table-container::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar,
+.data-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb,
+.data-table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+
+/* Universal Horizontal Slider Tab Navigation for all Devices */
+.menu {
+  width: 100%;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important; /* Firefox */
+}
+
+.menu::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Edge */
+}
+
+.menu ul {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  padding: 0 8px !important;
+  margin: 0 !important;
+  list-style: none !important;
+  white-space: nowrap !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+@media (min-width: 992px) {
+  .menu ul {
+    justify-content: center !important;
+  }
+}
+
+.menu li {
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+.menu a {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+/* Touch-friendly buttons and inputs */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+@media (max-width: 576px) {
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.3rem !important; }
+  h3 { font-size: 1.15rem !important; }
+  
+  .container, .booking-container, .reports-container {
+    padding: 12px 8px !important;
+  }
+}

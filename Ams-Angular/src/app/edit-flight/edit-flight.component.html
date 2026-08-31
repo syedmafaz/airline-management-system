@@ -1,0 +1,27 @@
+<div class="edit-carrier-container">
+    <h2>Edit Flight</h2>
+  
+    <div class="search-section">
+      <label>Enter Flight ID:</label>
+      <input type="number" [(ngModel)]="flightId" required />
+      <button (click)="searchFlight()">Search</button>
+    </div>
+  
+    <form *ngIf="flight" (ngSubmit)="updateFlight()">
+      <div *ngFor="let field of fields" class="field-row">
+        <label>{{ field }}</label>
+        <input type="text" [value]="getFieldValue(field)" readonly />
+        <input
+          type="text"
+          (input)="setUpdatedValue(field, $any($event.target).value)"
+          [placeholder]="'Enter new value'"
+        />
+      </div>
+  
+      <button type="submit">Update Flight</button>
+    </form>
+  
+    <div *ngIf="message" class="alert">
+      {{ message }}
+    </div>
+  </div>

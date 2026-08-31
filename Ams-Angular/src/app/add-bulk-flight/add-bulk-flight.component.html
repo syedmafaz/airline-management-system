@@ -1,0 +1,128 @@
+<div class="form-container">
+  <h2>Add Bulk Flights</h2>
+
+  
+  <div class="form-group" *ngIf="!selectedCarrier">
+    <label>Select Carrier</label>
+    <select class="form-control" [(ngModel)]="selectedCarrierId" (change)="onCarrierSelected()">
+      <option value="">-- Select Carrier --</option>
+      <option *ngFor="let carrier of carriers" [value]="carrier.carrierID">
+        {{ carrier.carrierName }} (ID: {{ carrier.carrierID }})
+      </option>
+    </select>
+  </div>
+  
+ 
+  <div class="form-group">
+    <label>Select Excel/CSV File</label>
+    <input 
+      type="file" 
+      id="fileInput"
+      accept=".xlsx,.xls,.csv" 
+      (change)="onFileSelected($event)"
+      class="file-input"
+    />
+    <small class="help-text">
+      <strong>Supported formats:</strong> .xlsx, .xls, .csv<br>
+      <strong>Required columns:</strong> CarrierID, Origin, Destination, AirFare, SeatCapacityBusinessClass, SeatCapacityEconomyClass, SeatCapacityExecutiveClass
+    </small>
+  </div>
+
+ 
+  <div *ngIf="fileProcessed && !isLoading" class="summary-container">
+    <h3>File Processing Summary</h3>
+    <div class="summary-item">
+      <span class="summary-label">Total flights to upload:</span>
+      <span class="summary-value">{{ flights.length }}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">File:</span>
+      <span class="summary-value">{{ selectedFile?.name }}</span>
+    </div>
+  </div>
+
+  <!-- Upload Button -->
+  <button 
+    *ngIf="readyToUpload && !isLoading" 
+    type="button" 
+    (click)="onSubmit()"
+    [disabled]="flights.length === 0"
+    class="upload-btn"
+  >
+    Upload {{ flights.length }} Flights
+  </button>
+
+  <!-- Status Message -->
+  <p class="status" [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }" *ngIf="message && !isLoading">
+    {{ message }}
+  </p>
+
+  <!-- Validation Errors Modal -->
+  <div *ngIf="showValidationErrors" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Validation Errors Found</h3>
+        <button type="button" class="close-btn" (click)="closeValidationErrors()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>Please fix the following errors in your file:</p>
+        
+        <div class="error-list">
+          <div *ngFor="let error of validationErrors" class="error-item">
+            <div class="error-row">
+              <strong>Row {{ error.row }}:</strong> {{ error.field }}
+            </div>
+            <div class="error-message">{{ error.error }}</div>
+            <div class="error-value">Value: "{{ error.value }}"</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="closeValidationErrors()" class="btn-secondary">
+          Close and Fix File
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duplicate Flights Modal -->
+  <div *ngIf="showDuplicateDialog" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Duplicate Flights Found</h3>
+        <button type="button" class="close-btn" (click)="onCancelUpload()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p>The following flights already exist in the system for the same carrier:</p>
+        
+        <div class="duplicate-list">
+          <div *ngFor="let duplicate of duplicateFlights" class="duplicate-item">
+            <div class="duplicate-row">
+              <strong>Row {{ duplicate.row }}:</strong> {{ duplicate.flight.origin }} → {{ duplicate.flight.destination }}
+            </div>
+            <div class="existing-info">
+              Carrier ID: {{ duplicate.flight.carrierId }} | Already exists with Flight ID: {{ duplicate.existingFlight.flightId }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="duplicate-summary">
+          <p><strong>{{ duplicateFlights.length }}</strong> duplicate(s) found out of <strong>{{ flights.length }}</strong> total flights.</p>
+          <p>You can choose to skip the duplicates and upload the remaining flights, or cancel the entire upload.</p>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="onProceedWithoutDuplicates()" class="btn-primary">
+          Skip Duplicates & Continue ({{ flights.length - duplicateFlights.length }} flights)
+        </button>
+        <button type="button" (click)="onCancelUpload()" class="btn-secondary">
+          Cancel Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

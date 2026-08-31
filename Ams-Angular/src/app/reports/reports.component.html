@@ -1,0 +1,341 @@
+
+<!-- reports.component.html - Enhanced with validation messages -->
+<div class="reports-container">
+  <div class="reports-header">
+    <h1>📊 Reports & Analytics</h1>
+    
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb">
+      <button class="breadcrumb-item" [class.active]="currentView === 'carriers'" (click)="resetFilters()">
+        🏢 Carriers
+      </button>
+      <span *ngIf="filters.selectedCarrier" class="breadcrumb-separator">›</span>
+      <button *ngIf="filters.selectedCarrier" class="breadcrumb-item" 
+              [class.active]="currentView === 'flights'" 
+              (click)="loadFlightsByCarrier(filters.selectedCarrier.carrierID)">
+        ✈️ {{ filters.selectedCarrier.carrierName }}
+      </button>
+      <span *ngIf="filters.selectedFlight" class="breadcrumb-separator">›</span>
+      <button *ngIf="filters.selectedFlight" class="breadcrumb-item" 
+              [class.active]="currentView === 'schedules'"
+              (click)="loadSchedulesByFlight(filters.selectedFlight.flightId)">
+        📅 Flight #{{ filters.selectedFlight.flightId }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading data...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-error">
+    <i class="icon">⚠️</i>
+    {{ error }}
+    <button (click)="error = ''" class="close-btn">×</button>
+  </div>
+
+  <!-- Success Message -->
+  <div *ngIf="message" class="alert alert-success">
+    <i class="icon">✅</i>
+    {{ message }}
+    <button (click)="message = ''" class="close-btn">×</button>
+  </div>
+
+  <!-- Carriers View -->
+  <div *ngIf="currentView === 'carriers'" class="carriers-section">
+    <h2>Select Carrier to View Reports</h2>
+    
+    <!-- Show carriers if available -->
+    <div *ngIf="carriers.length > 0" class="carriers-grid">
+      <div *ngFor="let carrier of carriers" class="carrier-card" (click)="selectCarrier(carrier)">
+        <div class="carrier-header">
+          <h3>{{ carrier.carrierName }}</h3>
+          <div class="carrier-id">ID: {{ carrier.carrierID }}</div>
+        </div>
+        <div class="carrier-details">
+          <div class="detail-row">
+            <span class="label">30 Days Discount:</span>
+            <span class="value">{{ carrier.discountPercentageThirtyDaysAdvanceBooking }}%</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">60 Days Discount:</span>
+            <span class="value">{{ carrier.discountPercentageSixtyDaysAdvanceBooking }}%</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="view-link">View Flights →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state for carriers -->
+    <div *ngIf="carriers.length === 0 && !loading" class="empty-state">
+      <div class="empty-icon">🏢</div>
+      <h3>No Carriers Available</h3>
+      <p>Please add carriers to the system first.</p>
+      <button class="btn btn-primary" (click)="loadCarriers()">Retry Loading</button>
+    </div>
+  </div>
+
+  <!-- Flights View -->
+  <div *ngIf="currentView === 'flights'" class="flights-section">
+    <div class="section-header">
+      <h2>Flights for {{ filters.selectedCarrier?.carrierName }}</h2>
+      <div class="action-buttons">
+        <button class="btn btn-secondary" (click)="navigateBack()">
+          ← Back to Carriers
+        </button>
+      </div>
+    </div>
+    
+    <!-- Show flights if available -->
+    <div *ngIf="flights.length > 0" class="flights-grid">
+      <div *ngFor="let flight of flights" class="flight-card" (click)="selectFlight(flight)">
+        <div class="flight-header">
+          <h3>Flight #{{ flight.flightId }}</h3>
+          <div class="route">{{ flight.origin }} → {{ flight.destination }}</div>
+        </div>
+        <div class="flight-details">
+          <div class="detail-row">
+            <span class="label">Base Fare:</span>
+            <span class="value">₹{{ flight.airFare }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Total Capacity:</span>
+            <span class="value">{{ getTotalSeats(flight) }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Capacity Info:</span>
+            <span class="value">{{ getCapacityInfo(flight) }}</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="actions">
+            <button class="btn-small btn-primary" (click)="selectFlight(flight); $event.stopPropagation()">
+              View Schedules
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state for flights -->
+    <div *ngIf="flights.length === 0 && !loading" class="empty-state">
+      <div class="empty-icon">✈️</div>
+      <h3>No Flights Available</h3>
+      <p>This carrier doesn't have any flights configured yet.</p>
+      <button class="btn btn-secondary" (click)="navigateBack()">← Back to Carriers</button>
+    </div>
+  </div>
+
+  <!-- Schedules View -->
+  <div *ngIf="currentView === 'schedules'" class="schedules-section">
+    <div class="section-header">
+      <h2>Schedules for Flight #{{ filters.selectedFlight?.flightId }}</h2>
+      <div class="action-buttons">
+        <button class="btn btn-secondary" (click)="navigateBack()">
+          ← Back to Flights
+        </button>
+      </div>
+    </div>
+    
+    <!-- Show schedules if available -->
+    <div *ngIf="schedules.length > 0" class="schedules-table">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Schedule ID</th>
+            <th>Travel Date</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Economy Fare</th>
+            <th>Business Fare</th>
+            <th>Bookings</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let schedule of schedules" class="schedule-row">
+            <td>#{{ schedule.flightScheduleId }}</td>
+            <td>{{ schedule.dateOfTravel | date:'dd MMM yyyy' }}</td>
+            <td>
+              <div>{{ schedule.departureTime }}</div>
+              <small>{{ schedule.departureDate | date:'dd MMM' }}</small>
+            </td>
+            <td>
+              <div>{{ schedule.arrivalTime }}</div>
+              <small>{{ schedule.arrivalDate | date:'dd MMM' }}</small>
+            </td>
+            <td>₹{{ schedule.economyClassFare }}</td>
+            <td>₹{{ schedule.businessClassFare }}</td>
+            <td>
+              <div class="booking-counts">
+                <span class="count economy">E: {{ schedule.economyClassBookedCount }}</span>
+                <span class="count business">B: {{ schedule.businessClassBookedCount }}</span>
+                <span class="count executive">Ex: {{ schedule.executiveClassBookedCount }}</span>
+              </div>
+            </td>
+            <td>
+              <button class="btn-small btn-primary" (click)="selectSchedule(schedule)">
+                View Bookings
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty state for schedules -->
+    <div *ngIf="schedules.length === 0 && !loading" class="empty-state">
+      <div class="empty-icon">📅</div>
+      <h3>No Flight Schedules</h3>
+      <p>This flight doesn't have any schedules configured yet.</p>
+      <button class="btn btn-secondary" (click)="navigateBack()">← Back to Flights</button>
+    </div>
+  </div>
+
+  <!-- Bookings View -->
+  <div *ngIf="currentView === 'bookings'" class="bookings-section">
+    <div class="section-header">
+      <h2>Booking Details for Schedule #{{ filters.selectedSchedule?.flightScheduleId }}</h2>
+      <div class="action-buttons">
+        <button class="btn btn-secondary" (click)="navigateBack()">
+          ← Back to Schedules
+        </button>
+      </div>
+    </div>
+
+    <!-- Show content only if bookings exist -->
+    <div *ngIf="bookings.length > 0">
+      <!-- Quick Summary Stats -->
+      <div class="booking-stats-row">
+        <div class="report-stat-card">
+          <span class="stat-val">{{ filteredBookings.length }}</span>
+          <span class="stat-lbl">Total Bookings</span>
+        </div>
+        <div class="report-stat-card active-card">
+          <span class="stat-val">{{ getActiveBookingsCount() }}</span>
+          <span class="stat-lbl">Active (Upcoming)</span>
+        </div>
+        <div class="report-stat-card completed-card">
+          <span class="stat-val">{{ getCompletedBookingsCount() }}</span>
+          <span class="stat-lbl">Completed (Past)</span>
+        </div>
+        <div class="report-stat-card cancelled-card">
+          <span class="stat-val">{{ getCancelledBookingsCount() }}</span>
+          <span class="stat-lbl">Cancelled</span>
+        </div>
+        <div class="report-stat-card revenue-card">
+          <span class="stat-val">₹{{ getTotalRevenue() | number }}</span>
+          <span class="stat-lbl">Total Revenue</span>
+        </div>
+        <div class="report-stat-card refund-card" *ngIf="getTotalRefunds() > 0">
+          <span class="stat-val">₹{{ getTotalRefunds() | number }}</span>
+          <span class="stat-lbl">Total Refunds</span>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <div class="filter-group">
+          <label>Status Filter:</label>
+          <select [(ngModel)]="filters.statusFilter" (change)="onFilterChange()">
+            <option value="all">All Status</option>
+            <option value="booked">Active / Booked (Upcoming)</option>
+            <option value="completed">Completed (Past Travel)</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Date From:</label>
+          <input type="date" [(ngModel)]="filters.dateFrom" (change)="onFilterChange()">
+        </div>
+        <div class="filter-group">
+          <label>Date To:</label>
+          <input type="date" [(ngModel)]="filters.dateTo" (change)="onFilterChange()">
+        </div>
+        <div class="filter-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="showPassengerDetails">
+            Show Passenger Details
+          </label>
+        </div>
+      </div>
+
+      <!-- Bookings Table -->
+      <div class="bookings-table">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>User Details</th>
+              <th>Seats</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th *ngIf="showPassengerDetails">Passengers</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of filteredBookings" class="booking-row">
+              <td>
+                <div class="booking-id">#{{ booking.bookingId }}</div>
+                <small class="booking-date">{{ booking.bookingDate | date:'dd MMM yyyy' }}</small>
+              </td>
+              <td>
+                <div class="user-info">
+                  <div *ngIf="booking.userName" class="user-name">{{ booking.userName }}</div>
+                  <div *ngIf="booking.userEmail" class="user-email">{{ booking.userEmail }}</div>
+                  <div class="user-id">User ID: {{ booking.userId }}</div>
+                </div>
+              </td>
+              <td>
+                <div class="seats-info">
+                  <div class="seat-count">{{ booking.numberOfTickets }} tickets</div>
+                  <div class="seat-class">{{ booking.seatCategory | titlecase }}</div>
+                </div>
+              </td>
+              <td>
+                <div class="amount-info">
+                  <div class="total-amount">₹{{ booking.totalAmount }}</div>
+                  <div *ngIf="booking.baseFare" class="fare-breakdown">
+                    <small>Base: ₹{{ booking.baseFare }}</small>
+                    <small *ngIf="booking.discountAmount">Disc: -₹{{ booking.discountAmount }}</small>
+                  </div>
+                  <div class="refund-amount" *ngIf="booking.refundAmount">
+                    <small class="refund">Refund: ₹{{ booking.refundAmount }}</small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusBadgeClass(getEffectiveStatus(booking))">
+                  {{ getEffectiveStatus(booking) === 'booked' ? 'Active' : (getEffectiveStatus(booking) | titlecase) }}
+                </span>
+              </td>
+              <td *ngIf="showPassengerDetails" class="passengers-cell">
+                <div class="passengers-list">
+                  <div *ngFor="let passenger of getPassengerList(booking.passengerDetailsJson); let i = index" 
+                       class="passenger-item">
+                    <span class="passenger-number">{{ i + 1 }}.</span>
+                    <span class="passenger-name">{{ passenger.name }}</span>
+                    <span class="passenger-details">({{ passenger.age }}y, {{ passenger.gender }})</span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Empty state for bookings -->
+    <div *ngIf="bookings.length === 0 && !loading" class="empty-state">
+      <div class="empty-icon">🎫</div>
+      <h3>No Bookings Found</h3>
+      <p>No passengers have booked tickets for this flight schedule yet.</p>
+      <button class="btn btn-secondary" (click)="navigateBack()">← Back to Schedules</button>
+    </div>
+  </div>
+</div>

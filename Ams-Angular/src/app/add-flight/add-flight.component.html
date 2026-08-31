@@ -1,0 +1,249 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Flight</title>
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width:  85%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .validation-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add New Flight</h2>
+
+        <form (ngSubmit)="onSubmit()" #flightForm="ngForm">
+            <div class="form-group">
+                <label for="carrierId">Carrier *</label>
+                <select
+                  id="carrierId"
+                  [(ngModel)]="flight.carrierId"
+                  name="carrierID"
+                  required
+                  #carrierIDRef="ngModel"
+                  [disabled]="isLoadingCarriers || !carriers.length">
+                  <option [ngValue]="null" disabled>
+                    {{ isLoadingCarriers ? 'Loading carriers...' : 'Select Carrier' }}
+                  </option>
+                  <option *ngFor="let carrier of carriers" [ngValue]="carrier.carrierID">
+                    {{ carrier.carrierName }} (ID: {{ carrier.carrierID }})
+                  </option>
+                </select>
+                <div
+                *ngIf="carrierIDRef.invalid && carrierIDRef.touched"
+                style="color: red; font-size: 13px;"
+              >
+                <span *ngIf="carrierIDRef.errors?.['required']">Carrier ID is required.</span>
+               
+              </div>
+                <!-- No carrier validation message -->
+                <div class="validation-error" *ngIf="!isLoadingCarriers && carriers.length === 0">
+                  No available carriers. Please <strong>create a carrier</strong> first.
+                </div>
+                
+              
+                <div class="loading" *ngIf="isLoadingCarriers">Loading carriers...</div>
+              </div>
+
+            <!-- <div class="form-group">
+                <label for="origin">Origin *</label>
+                <input 
+                    id="origin"
+                    type="text" 
+                    [(ngModel)]="flight.origin" 
+                    name="origin" 
+                    required 
+                    placeholder="Enter origin city"
+                    maxlength="100" />
+            </div> -->
+
+
+            <div class="form-group">
+                <label for="origin">Origin *</label>
+                <input
+                  type="text"
+                  name="Origin"
+                  [(ngModel)]="flight.origin"
+                  required
+                  minlength="3"
+                  pattern="^[A-Za-z]*"
+                  onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+                  #originRef="ngModel"
+                />
+                <div
+                  *ngIf="originRef.invalid && originRef.touched"
+                  style="color: red; font-size: 13px;"
+                >
+                  <span *ngIf="originRef.errors?.['required']">Origin is required.</span>
+                  <span *ngIf="originRef.errors?.['minlength']">Origin must be at least 3 characters.</span>
+                  <span *ngIf="originRef.errors?.['pattern']">
+                    Origin must with letters only.
+                  </span>
+                </div>
+              </div>
+      
+
+            <!-- <div class="form-group">
+                <label for="destination">Destination *</label>
+                <input 
+                    id="destination"
+                    type="text" 
+                    [(ngModel)]="flight.destination" 
+                    name="destination" 
+                    required 
+                    placeholder="Enter destination city"
+                    maxlength="100" />
+            </div> -->
+
+
+
+            <div class="form-group">
+                <label>Destination</label>
+                <input
+                  type="text"
+                  name="destination"
+                  [(ngModel)]="flight.destination"
+                  required
+                  minlength="3"
+                  pattern="[A-Za-z]*"
+                  onkeypress="return (event.charCode>=65 && event.charCode<=90) || (event.charCode>=97 && event.charCode<=122)"
+                  #destinationRef="ngModel"
+                />
+                <div
+                  *ngIf="destinationRef.invalid && destinationRef.touched"
+                  style="color: red; font-size: 13px;"
+                >
+                  <span *ngIf="destinationRef.errors?.['required']">Destination is required.</span>
+                  <span *ngIf="destinationRef.errors?.['minlength']">Destination must be at least 3 characters.</span>
+                  <span *ngIf="destinationRef.errors?.['pattern']">
+                    Destination must with letters only.
+                  </span>
+                </div>
+              </div>
+      
+
+            <div class="form-group">
+                <label for="airFare">Air Fare *</label>
+                <input 
+                    id="airFare"
+                    type="number" 
+                    [(ngModel)]="flight.airFare" 
+                    name="airFare" 
+                    required 
+                    min="1" 
+                    step="0.01"
+                    placeholder="Enter fare amount" />
+            </div>
+
+            <div class="form-group">
+                <label for="economySeats">Economy Class Seats *</label>
+                <input 
+                    id="economySeats"
+                    type="number" 
+                    [(ngModel)]="flight.seatCapacityEconomyClass" 
+                    name="economySeats" 
+                    required 
+                    min="20" 
+                    max="500"
+                    placeholder="Minimum 20 seats" />
+            </div>
+
+            <div class="form-group">
+                <label for="businessSeats">Business Class Seats *</label>
+                <input 
+                    id="businessSeats"
+                    type="number" 
+                    [(ngModel)]="flight.seatCapacityBusinessClass" 
+                    name="businessSeats" 
+                    required 
+                    min="10" 
+                    max="100"
+                    placeholder="Minimum 10 seats" />
+            </div>
+
+            <div class="form-group">
+                <label for="executiveSeats">Executive Class Seats *</label>
+                <input 
+                    id="executiveSeats"
+                    type="number" 
+                    [(ngModel)]="flight.seatCapacityExecutiveClass" 
+                    name="executiveSeats" 
+                    required 
+                    min="10" 
+                    max="50"
+                    placeholder="Minimum 10 seats" />
+            </div>
+
+            <button 
+                type="submit" 
+                [disabled]="flightForm.invalid || isSubmitting || isLoadingCarriers">
+                {{ isSubmitting ? 'Adding Flight...' : 'Add Flight' }}
+            </button>
+
+            <div class="status" 
+                 [ngClass]="{ 'success': isSuccess, 'error': !isSuccess }" 
+                 *ngIf="message">
+                {{ message }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

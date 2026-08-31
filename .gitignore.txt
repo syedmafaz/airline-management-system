@@ -1,0 +1,23 @@
+# Angular / Node
+**/node_modules/
+**/dist/
+**/.angular/
+npm-debug.log*
+
+# Spring Boot / Maven
+**/target/
+**/*.class
+**/ams_db/
+
+# IDEs & System Files
+.metadata/
+**/.idea/
+**/*.iml
+**/.classpath
+**/.project
+**/.settings/
+**/.vscode/
+
+# Archive files
+*.zip
+*.rar

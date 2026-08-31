@@ -1,0 +1,97 @@
+<div class="edit-carrier-container">
+  <h2>Edit Flight Schedule</h2>
+
+  <div class="search-section">
+    <label>Enter Schedule ID:</label>
+    <input type="number" [(ngModel)]="scheduleId" required />
+    <button (click)="searchSchedule()">Search</button>
+  </div>
+
+  <form *ngIf="schedule" (ngSubmit)="updateSchedule()" class="schedule-form">
+    <div class="field-row">
+      <label>Flight ID</label>
+      <input type="number" [value]="schedule.flightId" readonly class="readonly-field" />
+    </div>
+
+    <div class="field-row">
+      <label>Date of Travel</label>
+      <input 
+        type="date" 
+        [value]="getFieldValue('dateOfTravel') | date:'yyyy-MM-dd'"
+        (input)="setUpdatedValue('dateOfTravel', $any($event.target).value)"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Departure Date</label>
+      <input 
+        type="date" 
+        [value]="getFieldValue('departureDate') | date:'yyyy-MM-dd'"
+        (input)="setUpdatedValue('departureDate', $any($event.target).value)"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Departure Time</label>
+      <input 
+        type="time" 
+        [value]="getFieldValue('departureTime')"
+        (input)="setUpdatedValue('departureTime', $any($event.target).value)"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Arrival Date</label>
+      <input 
+        type="date" 
+        [value]="getFieldValue('arrivalDate') | date:'yyyy-MM-dd'"
+        (input)="setUpdatedValue('arrivalDate', $any($event.target).value)"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Arrival Time</label>
+      <input 
+        type="time" 
+        [value]="getFieldValue('arrivalTime')"
+        (input)="setUpdatedValue('arrivalTime', $any($event.target).value)"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Business Class Fare</label>
+      <input 
+        type="number" 
+        [value]="getFieldValue('businessClassFare')"
+        (input)="setUpdatedValue('businessClassFare', $any($event.target).value)"
+        min="0"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Economy Class Fare</label>
+      <input 
+        type="number" 
+        [value]="getFieldValue('economyClassFare')"
+        (input)="setUpdatedValue('economyClassFare', $any($event.target).value)"
+        min="0"
+      />
+    </div>
+
+    <div class="field-row">
+      <label>Executive Class Fare</label>
+      <input 
+        type="number" 
+        [value]="getFieldValue('executiveClassFare')"
+        (input)="setUpdatedValue('executiveClassFare', $any($event.target).value)"
+        min="0"
+      />
+    </div>
+
+    <button type="submit" class="update-btn">Update Schedule</button>
+  </form>
+
+  <div *ngIf="message" class="alert" [class.success]="message.includes('✅')">
+    {{ message }}
+  </div>
+</div>

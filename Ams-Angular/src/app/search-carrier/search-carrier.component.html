@@ -1,0 +1,25 @@
+<div class="container">
+    <h2>Search Carrier</h2>
+  
+    <div class="form-group">
+      <label for="carrierId">Enter Carrier ID:</label>
+      <input type="number" id="carrierId" [(ngModel)]="carrierId" required />
+      <button (click)="onSearch()">Search</button>
+    </div>
+  
+    <p class="status" [ngClass]="{ 'success': isFound, 'error': !isFound }" *ngIf="message">{{ message }}</p>
+  
+    <div *ngIf="carrier" class="result-card">
+      <h3>Carrier Details</h3>
+      <p><strong>Name:</strong> {{ carrier.carrierName }}</p>
+      <p><strong>30 Days Discount:</strong> {{ carrier.discountPercentageThirtyDaysAdvanceBooking }}%</p>
+      <p><strong>60 Days Discount:</strong> {{ carrier.discountPercentageSixtyDaysAdvanceBooking }}%</p>
+      <p><strong>90 Days Discount:</strong> {{ carrier.discountPercentageNinteyDaysAdvanceBooking }}%</p>
+      <p><strong>Refund 2 Days Before:</strong> {{ carrier.refundPercentageForTicketCancellation2DaysBeforeTravelDate }}%</p>
+      <p><strong>Refund 10 Days Before:</strong> {{ carrier.refundPercentageForTicketCancellation10DaysBeforeTravelDate }}%</p>
+      <p><strong>Refund 20 Days Before:</strong> {{ carrier.refundPercentageForTicketCancellation20DaysOrMoreBeforeTravelDate }}%</p>
+      <p><strong>Silver Discount:</strong> {{ carrier.silverUserDiscount }}%</p>
+      <p><strong>Gold Discount:</strong> {{ carrier.goldUserDiscount }}%</p>
+      <p><strong>Platinum Discount:</strong> {{ carrier.platinumUserDiscount }}%</p>
+    </div>
+  </div>
