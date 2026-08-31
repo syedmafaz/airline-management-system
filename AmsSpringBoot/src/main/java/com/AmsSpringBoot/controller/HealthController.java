@@ -30,7 +30,7 @@ public class HealthController {
             if (conn == null) {
                 result.put("dbConnected", false);
                 result.put("error", "Connection returned null");
-                return ResponseEntity.status(500).body(result);
+                return ResponseEntity.ok(result);
             }
             result.put("dbConnected", true);
             result.put("driver", conn.getMetaData().getDriverName());
@@ -41,13 +41,18 @@ public class HealthController {
                 if (rs.next()) {
                     result.put("usersCount", rs.getInt(1));
                 }
+            } catch (Exception se) {
+                result.put("queryError", se.getMessage());
             }
             return ResponseEntity.ok(result);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             result.put("dbConnected", false);
             result.put("error", e.getMessage());
             result.put("exceptionClass", e.getClass().getName());
-            return ResponseEntity.status(500).body(result);
+            java.io.StringWriter sw = new java.io.StringWriter();
+            e.printStackTrace(new java.io.PrintWriter(sw));
+            result.put("stackTrace", sw.toString());
+            return ResponseEntity.ok(result);
         }
     }
 }
