@@ -15,7 +15,7 @@
 //import java.util.Map;
 //
 //@RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "*")
 //@RequestMapping("/api/flightbooking")
 //public class FlightBookingController {
 //
@@ -156,7 +156,7 @@
 //import java.util.Map;
 //
 //@RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "*")
 //@RequestMapping("/api/flightbooking")
 //public class FlightBookingController {
 //
@@ -278,7 +278,7 @@
 //import java.util.Map;
 //
 //@RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "*")
 //@RequestMapping("/api/flightbooking")
 //public class FlightBookingController {
 //
@@ -420,7 +420,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/flightbooking")
 public class FlightBookingController {
 
