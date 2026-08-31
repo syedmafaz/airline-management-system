@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "*") // Angular dev server
+@CrossOrigin(originPatterns = "*") // Angular dev server
 @RestController
 @RequestMapping("/api/user")
 

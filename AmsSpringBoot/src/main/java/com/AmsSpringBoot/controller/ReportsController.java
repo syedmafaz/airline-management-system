@@ -13,7 +13,7 @@
 //import java.util.Map;
 //
 //@RestController
-//@CrossOrigin(origins = "*")
+//@CrossOrigin(originPatterns = "*")
 //@RequestMapping("/api/reports")
 //public class ReportsController {
 //
@@ -130,7 +130,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*")
 @RequestMapping("/api/reports")
 public class ReportsController {
 

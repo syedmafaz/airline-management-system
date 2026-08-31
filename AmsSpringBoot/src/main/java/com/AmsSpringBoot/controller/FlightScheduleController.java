@@ -8,7 +8,7 @@
 //import java.util.List;
 //
 //@RestController
-//@CrossOrigin(origins = "*") // for Angular communication
+//@CrossOrigin(originPatterns = "*") // for Angular communication
 //@RequestMapping("/api/flightschedule")
 //public class FlightScheduleController {
 //
@@ -80,7 +80,7 @@
 //import java.util.List;
 //
 //@RestController
-//@CrossOrigin(origins = "*")
+//@CrossOrigin(originPatterns = "*")
 //@RequestMapping("/api/flightschedule")
 //public class FlightScheduleController {
 //
@@ -174,7 +174,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*")
 @RequestMapping("/api/flightschedule")
 public class FlightScheduleController {
 

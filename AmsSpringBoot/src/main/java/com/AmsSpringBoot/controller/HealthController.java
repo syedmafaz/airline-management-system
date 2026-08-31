@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*")
 @RestController
 @RequestMapping("/api")
 public class HealthController {
