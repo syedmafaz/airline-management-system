@@ -55,4 +55,26 @@ public class HealthController {
             return ResponseEntity.ok(result);
         }
     }
+
+    @GetMapping("/init-db")
+    public ResponseEntity<?> initDb() {
+        Map<String, Object> result = new HashMap<>();
+        try (Connection conn = DBUtil.createConnection()) {
+            DBUtil.initTables(conn);
+            result.put("success", true);
+            result.put("message", "Database tables initialized successfully");
+
+            try (Statement stmt = conn.createStatement()) {
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM Users");
+                if (rs.next()) {
+                    result.put("usersCount", rs.getInt(1));
+                }
+            }
+            return ResponseEntity.ok(result);
+        } catch (Throwable e) {
+            result.put("success", false);
+            result.put("error", e.getMessage());
+            return ResponseEntity.ok(result);
+        }
+    }
 }
